@@ -24,4 +24,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ChartConverter
-        path: ${{github.workspace}}\ChartConverter\bin\Release\net7.0-windows
+        path: ${{github.workspace}}\ChartConverter\bin\Release\net8.0
