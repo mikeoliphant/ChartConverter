@@ -44,7 +44,7 @@ jobs:
       run: dotnet build --configuration Release
 
     - name: Create Archive
-      run: Compress-Archive -Path ${{github.workspace}}\PsarcConverter\bin\Release\net8.0-windows\* -Destination PsarcConverter.zip
+      run: Compress-Archive -Path ${{github.workspace}}\ChartConverter\bin\Release\net8.0\* -Destination ChartConverter.zip
     
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
@@ -52,20 +52,20 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.create_release.outputs.upload_url }}
-        asset_path: ./PsarcConverter.zip
-        asset_name: PsarcConverter.zip
+        asset_path: ./ChartConverter.zip
+        asset_name: ChartConverter.zip
         asset_content_type: application/zip
         
     - name: Publish Linux-x64
       working-directory: ${{github.workspace}}
-      run: dotnet publish .\PsarcConverterGL\PsarcConverterGL.csproj --runtime linux-x64 -p:PublishSingleFile=true --self-contained true
+      run: dotnet publish .\ChartConverter\ChartConverter.csproj --runtime linux-x64 -p:PublishSingleFile=true --self-contained true
 
     - name: Add Linux-x64 Archive
       working-directory: ${{github.workspace}}
       run: |
         mkdir linux-x64-build
-        move PsarcConverterGL\bin\Release\net8.0\linux-x64\publish linux-x64-build\PsarcConverterGL
-        Compress-Archive -Path linux-x64-build\* -Destination PsarcConverterLinux.zip
+        move ChartConverter\bin\Release\net8.0\linux-x64\publish linux-x64-build\ChartConverterGL
+        Compress-Archive -Path linux-x64-build\* -Destination ChartConverterLinux.zip
 
     - name: Upload Linux-x64 Asset
       uses: actions/upload-release-asset@v1
@@ -73,20 +73,20 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.create_release.outputs.upload_url }}
-        asset_path: ./PsarcConverterLinux.zip
-        asset_name: PsarcConverterLinux.zip
+        asset_path: ./ChartConverterLinux.zip
+        asset_name: ChartConverterLinux.zip
         asset_content_type: application/zip
 
     - name: Publish OSX-x64
       working-directory: ${{github.workspace}}
-      run: dotnet publish .\PsarcConverterGL\PsarcConverterGL.csproj --runtime osx-x64 -p:PublishSingleFile=true --self-contained true
+      run: dotnet publish .\ChartConverter\ChartConverterGL.csproj --runtime osx-x64 -p:PublishSingleFile=true --self-contained true
 
     - name: Add OSX-x64 Archive
       working-directory: ${{github.workspace}}
       run: |
         mkdir osx-x64-build
-        move PsarcConverterGL\bin\Release\net8.0\osx-x64\publish osx-x64-build\PsarcConverterGL
-        Compress-Archive -Path osx-x64-build\* -Destination PsarcConverterMacX64.zip
+        move PsarcConverter\bin\Release\net8.0\osx-x64\publish osx-x64-build\ChartConverter
+        Compress-Archive -Path osx-x64-build\* -Destination ChartConverterMacX64.zip
 
     - name: Upload OSX-x64 Asset
       uses: actions/upload-release-asset@v1
@@ -94,20 +94,20 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.create_release.outputs.upload_url }}
-        asset_path: ./PsarcConverterMacX64.zip
-        asset_name: PsarcConverterMacX64.zip
+        asset_path: ./ChartConverterMacX64.zip
+        asset_name: ChartConverterMacX64.zip
         asset_content_type: application/zip
 
     - name: Publish OSX-arm64
       working-directory: ${{github.workspace}}
-      run: dotnet publish .\PsarcConverterGL\PsarcConverterGL.csproj --runtime osx-arm64 -p:PublishSingleFile=true --self-contained true
+      run: dotnet publish .\ChartConverterGL\ChartConverterGL.csproj --runtime osx-arm64 -p:PublishSingleFile=true --self-contained true
 
     - name: Add OSX-arm64 Archive
       working-directory: ${{github.workspace}}
       run: |
         mkdir osx-arm64-build
-        move PsarcConverterGL\bin\Release\net8.0\osx-arm64\publish osx-arm64-build\PsarcConverterGL
-        Compress-Archive -Path osx-arm64-build\* -Destination PsarcConverterMacArm64.zip
+        move ChartConverter\bin\Release\net8.0\osx-arm64\publish osx-arm64-build\ChartConverter
+        Compress-Archive -Path osx-arm64-build\* -Destination ChartConverterMacArm64.zip
 
     - name: Upload OSX-arm64 Asset
       uses: actions/upload-release-asset@v1
@@ -115,6 +115,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.create_release.outputs.upload_url }}
-        asset_path: ./PsarcConverterMacArm64.zip
+        asset_path: ./ChartConverterMacArm64.zip
         asset_name: PsarcConverterMacArm64.zip
         asset_content_type: application/zip
