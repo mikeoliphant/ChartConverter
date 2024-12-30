@@ -1,8 +1,8 @@
 ﻿using System;
 using UILayout;
-using PsarcConverter;
+using ChartConverter;
 
-using var host = new PsarcConverterHost(800, 600, isFullscreen: false);
+using var host = new ChartConverterHost(1024, 600, isFullscreen: false);
 
 host.UseEmbeddedResources = true;
 

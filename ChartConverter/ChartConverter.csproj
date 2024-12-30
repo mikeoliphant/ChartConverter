@@ -39,5 +39,5 @@
 		<Message Text="Restoring dotnet tools" Importance="High" />
 		<Exec Command="dotnet tool restore" />
 	</Target>
-	<Import Project="..\PsarcConverterShared\PsarcConverterShared.projitems" Label="Shared" />
+	<Import Project="..\ChartConverterShared\ChartConverterShared.projitems" Label="Shared" />
 </Project>

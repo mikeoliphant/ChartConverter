@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using UILayout;
 
-namespace PsarcConverter
+namespace ChartConverter
 {
-    public class PsarcConverterHost : MonoGameHost
+    public class ChartConverterHost : MonoGameHost
     {
-        public PsarcConverterHost(int screenWidth, int screenHeight, bool isFullscreen)
+        public ChartConverterHost(int screenWidth, int screenHeight, bool isFullscreen)
             : base(screenWidth, screenHeight, isFullscreen)
         {
         }

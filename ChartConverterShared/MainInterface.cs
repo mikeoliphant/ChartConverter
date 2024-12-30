@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 using UILayout;
 
-namespace PsarcConverter
+namespace ChartConverter
 {
     public class MainInterface : VerticalStack
     {
@@ -44,7 +44,7 @@ namespace PsarcConverter
 
         public MainInterface()
         {
-            saveFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "PsarcConverter");
+            saveFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ChartConverter");
             saveFile = Path.Combine(saveFolder, "Options.xml");
 
             try

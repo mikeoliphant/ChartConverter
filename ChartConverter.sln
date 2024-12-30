@@ -3,25 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PsarcConverter", "PsarcConverter\PsarcConverter.csproj", "{A0794F02-ADC9-46FF-AF90-5565C7426502}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UILayout.Skia.WPF", "Dependencies\UILayout\UILayout.Skia.WPF\UILayout.Skia.WPF.csproj", "{2BDB0AB7-1074-43C4-BFF9-E7B22FF19C4A}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PsarcUtil", "Dependencies\PsarcUtil\PsarcUtil\PsarcUtil.csproj", "{5E4EFF4B-5A94-4940-8055-6DFB7B974171}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BnkExtractor", "Dependencies\PsarcUtil\Dependencies\BnkExtractor\BnkExtractor\BnkExtractor.csproj", "{CD1D23EF-2D72-443B-B70F-C68BE05A5EBB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rocksmith2014PsarcLib", "Dependencies\PsarcUtil\Dependencies\Rocksmith2014PsarcLib\Rocksmith2014PsarcLib.csproj", "{7B43C4EC-55A3-40B8-9640-04147049C0E3}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "PsarcConverterShared", "PsarcConverterShared\PsarcConverterShared.shproj", "{EADCD423-38CE-4D03-82A4-EB8C40C54ACE}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ChartConverterShared", "ChartConverterShared\ChartConverterShared.shproj", "{EADCD423-38CE-4D03-82A4-EB8C40C54ACE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PsarcConverterGL", "PsarcConverterGL\PsarcConverterGL.csproj", "{206A5643-0B91-46AB-AC79-744F4DFD47DD}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UILayout.MonoGame", "Dependencies\UILayout\UILayout.MonoGame\UILayout.MonoGame.shproj", "{D7307594-237F-43DA-BD6B-D0BC2BD9B276}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChartConverter", "ChartConverter\ChartConverter.csproj", "{206A5643-0B91-46AB-AC79-744F4DFD47DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UILayout.MonoGame.DesktopGL", "Dependencies\UILayout\UILayout.MonoGame.DesktopGL\UILayout.MonoGame.DesktopGL.csproj", "{F05802D8-6CBC-4F7F-82C1-CD8175C85CD8}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UILayout.Skia", "Dependencies\UILayout\UILayout.Skia\UILayout.Skia.shproj", "{43920506-574A-4227-9759-5C55C3D54A9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,30 +25,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A0794F02-ADC9-46FF-AF90-5565C7426502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0794F02-ADC9-46FF-AF90-5565C7426502}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0794F02-ADC9-46FF-AF90-5565C7426502}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{A0794F02-ADC9-46FF-AF90-5565C7426502}.Debug|x64.Build.0 = Debug|Any CPU
-		{A0794F02-ADC9-46FF-AF90-5565C7426502}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A0794F02-ADC9-46FF-AF90-5565C7426502}.Debug|x86.Build.0 = Debug|Any CPU
-		{A0794F02-ADC9-46FF-AF90-5565C7426502}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0794F02-ADC9-46FF-AF90-5565C7426502}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A0794F02-ADC9-46FF-AF90-5565C7426502}.Release|x64.ActiveCfg = Release|Any CPU
-		{A0794F02-ADC9-46FF-AF90-5565C7426502}.Release|x64.Build.0 = Release|Any CPU
-		{A0794F02-ADC9-46FF-AF90-5565C7426502}.Release|x86.ActiveCfg = Release|Any CPU
-		{A0794F02-ADC9-46FF-AF90-5565C7426502}.Release|x86.Build.0 = Release|Any CPU
-		{2BDB0AB7-1074-43C4-BFF9-E7B22FF19C4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2BDB0AB7-1074-43C4-BFF9-E7B22FF19C4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2BDB0AB7-1074-43C4-BFF9-E7B22FF19C4A}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2BDB0AB7-1074-43C4-BFF9-E7B22FF19C4A}.Debug|x64.Build.0 = Debug|Any CPU
-		{2BDB0AB7-1074-43C4-BFF9-E7B22FF19C4A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2BDB0AB7-1074-43C4-BFF9-E7B22FF19C4A}.Debug|x86.Build.0 = Debug|Any CPU
-		{2BDB0AB7-1074-43C4-BFF9-E7B22FF19C4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2BDB0AB7-1074-43C4-BFF9-E7B22FF19C4A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2BDB0AB7-1074-43C4-BFF9-E7B22FF19C4A}.Release|x64.ActiveCfg = Release|Any CPU
-		{2BDB0AB7-1074-43C4-BFF9-E7B22FF19C4A}.Release|x64.Build.0 = Release|Any CPU
-		{2BDB0AB7-1074-43C4-BFF9-E7B22FF19C4A}.Release|x86.ActiveCfg = Release|Any CPU
-		{2BDB0AB7-1074-43C4-BFF9-E7B22FF19C4A}.Release|x86.Build.0 = Release|Any CPU
 		{5E4EFF4B-5A94-4940-8055-6DFB7B974171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5E4EFF4B-5A94-4940-8055-6DFB7B974171}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E4EFF4B-5A94-4940-8055-6DFB7B974171}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -125,14 +93,9 @@ Global
 		SolutionGuid = {D6BF81B9-DA6D-4E2F-8790-3E6DEF860F81}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		PsarcConverterShared\PsarcConverterShared.projitems*{206a5643-0b91-46ab-ac79-744f4dfd47dd}*SharedItemsImports = 5
-		Dependencies\UILayout\UILayout.Skia\UILayout.Skia.projitems*{2bdb0ab7-1074-43c4-bff9-e7b22ff19c4a}*SharedItemsImports = 5
-		Dependencies\UILayout\UILayout\UILayout.projitems*{2bdb0ab7-1074-43c4-bff9-e7b22ff19c4a}*SharedItemsImports = 5
-		Dependencies\UILayout\UILayout.Skia\UILayout.Skia.projitems*{43920506-574a-4227-9759-5c55c3d54a9a}*SharedItemsImports = 13
+		ChartConverterShared\ChartConverterShared.projitems*{206a5643-0b91-46ab-ac79-744f4dfd47dd}*SharedItemsImports = 5
 		Dependencies\PsarcUtil\Dependencies\OpenSongChart\SongFormat\SongFormat.projitems*{5e4eff4b-5a94-4940-8055-6dfb7b974171}*SharedItemsImports = 5
-		PsarcConverterShared\PsarcConverterShared.projitems*{a0794f02-adc9-46ff-af90-5565c7426502}*SharedItemsImports = 5
-		Dependencies\UILayout\UILayout.MonoGame\UILayout.MonoGame.projitems*{d7307594-237f-43da-bd6b-d0bc2bd9b276}*SharedItemsImports = 13
-		PsarcConverterShared\PsarcConverterShared.projitems*{eadcd423-38ce-4d03-82a4-eb8c40c54ace}*SharedItemsImports = 13
+		ChartConverterShared\ChartConverterShared.projitems*{eadcd423-38ce-4d03-82a4-eb8c40c54ace}*SharedItemsImports = 13
 		Dependencies\UILayout\UILayout.MonoGame\UILayout.MonoGame.projitems*{f05802d8-6cbc-4f7f-82c1-cd8175c85cd8}*SharedItemsImports = 5
 		Dependencies\UILayout\UILayout\UILayout.projitems*{f05802d8-6cbc-4f7f-82c1-cd8175c85cd8}*SharedItemsImports = 5
 	EndGlobalSection

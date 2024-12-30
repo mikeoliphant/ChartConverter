@@ -4,7 +4,7 @@ using System.IO;
 using System.Xml.Serialization;
 
 
-namespace PsarcConverter
+namespace ChartConverter
 {
     public class ConvertOptions
     {
