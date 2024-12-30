@@ -23,5 +23,5 @@ jobs:
     - name: Create Archive
       uses: actions/upload-artifact@v4
       with:
-        name: PsarcConverter
-        path: ${{github.workspace}}\PsarcConverter\bin\Release\net7.0-windows
+        name: ChartConverter
+        path: ${{github.workspace}}\ChartConverter\bin\Release\net7.0-windows
