@@ -19,8 +19,8 @@ The following external dependencies must be installed:
 
 On Windows, extract the downladed .zip file and run "ChartConverter".
 
-On other platforms, extract the downloaded .zip file and run "ChartConverterGL". You will likely have to make it executable first:
+On other platforms, you will likely have to make it executable first:
 
 ```
-chmod u+x ChartConverterGL
+chmod u+x ChartConverter
 ```
