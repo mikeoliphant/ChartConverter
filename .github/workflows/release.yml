@@ -85,7 +85,7 @@ jobs:
       working-directory: ${{github.workspace}}
       run: |
         mkdir osx-x64-build
-        move PsarcConverter\bin\Release\net8.0\osx-x64\publish osx-x64-build\ChartConverter
+        move ChartConverter\bin\Release\net8.0\osx-x64\publish osx-x64-build\ChartConverter
         Compress-Archive -Path osx-x64-build\* -Destination ChartConverterMacX64.zip
 
     - name: Upload OSX-x64 Asset
@@ -116,5 +116,5 @@ jobs:
       with:
         upload_url: ${{ needs.create_release.outputs.upload_url }}
         asset_path: ./ChartConverterMacArm64.zip
-        asset_name: PsarcConverterMacArm64.zip
+        asset_name: ChartConverterMacArm64.zip
         asset_content_type: application/zip
