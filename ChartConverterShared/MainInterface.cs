@@ -7,6 +7,14 @@ namespace ChartConverter
 {
     public class MainInterface : VerticalStack
     {
+        public static UIColor PanelBackgroundColor = new UIColor(50, 55, 65);
+        public static UIColor PanelBackgroundColorDark = PanelBackgroundColor * 0.8f;
+        public static UIColor PanelBackgroundColorDarkest = PanelBackgroundColor * 0.5f;
+        public static UIColor PanelBackgroundColorLight = PanelBackgroundColor * 1.5f;
+        public static UIColor PanelBackgroundColorLightest = PanelBackgroundColor * 3.0f;
+        public static UIColor PanelForegroundColor = UIColor.Lerp(PanelBackgroundColor, UIColor.White, 0.75f);
+
+
         string saveFolder;
         string saveFile;
 
@@ -30,20 +38,27 @@ namespace ChartConverter
 
         static MainInterface()
         {
-            Layout.Current.DefaultOutlineNinePatch = Layout.Current.AddImage("ShadowedOutline");
+            Layout.Current.DefaultOutlineNinePatch = Layout.Current.AddImage("PopupBackground");
 
             Layout.Current.DefaultPressedNinePatch = Layout.Current.AddImage("ButtonPressed");
             Layout.Current.DefaultUnpressedNinePatch = Layout.Current.AddImage("ButtonUnpressed");
 
             Layout.Current.DefaultDragImage = Layout.Current.GetImage("ButtonPressed");
 
-            Layout.Current.AddImage("Outline");
+            Layout.Current.AddImage("TabPanelBackground");
+            Layout.Current.AddImage("TabBackground");
+            Layout.Current.AddImage("TabForeground");
 
-            Layout.Current.DefaultForegroundColor = UIColor.Black;
+            Layout.Current.DefaultForegroundColor = UIColor.White;
         }
 
         public MainInterface()
         {
+            HorizontalAlignment = EHorizontalAlignment.Stretch;
+            VerticalAlignment = EVerticalAlignment.Stretch;
+            Padding = new LayoutPadding(5);
+            BackgroundColor = UIColor.Black;
+
             saveFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ChartConverter");
             saveFile = Path.Combine(saveFolder, "Options.xml");
 
@@ -66,83 +81,15 @@ namespace ChartConverter
                 convertOptions.ParseFolders.Add(@"C:\Program Files (x86)\Steam\steamapps\common\Rocksmith2014\dlc");
             }
 
-            HorizontalAlignment = EHorizontalAlignment.Stretch;
-            VerticalAlignment = EVerticalAlignment.Stretch;
-            Padding = new LayoutPadding(5);
-            BackgroundColor = UIColor.Lerp(UIColor.White, UIColor.Black, 0.1f);
+            TabPanel tabPanel = new TabPanel(PanelBackgroundColorDark, UIColor.White, Layout.Current.GetImage("TabPanelBackground"), Layout.Current.GetImage("TabForeground"), Layout.Current.GetImage("TabBackground"), 5, 5);
+            Children.Add(tabPanel);
 
-            topSection = new NinePatchWrapper(Layout.Current.GetImage("Outline"))
-            {
-                HorizontalAlignment = EHorizontalAlignment.Stretch,
-                VerticalAlignment = EVerticalAlignment.Top
-            };
-            Children.Add(topSection);
-
-            VerticalStack topStack = new VerticalStack()
-            {
-                HorizontalAlignment = EHorizontalAlignment.Stretch,
-                ChildSpacing = 5
-            };
-            topSection.Child = topStack;
-
-            topStack.Children.Add(new TextBlock("Song Output Folder:")
-            {
-                Padding = new LayoutPadding(0, 10)
-            });
-
-            HorizontalStack pathStack = new HorizontalStack()
-            {
-                ChildSpacing = 10
-            };
-            topStack.Children.Add(pathStack);
-
-            pathStack.Children.Add(songOutputText = new TextBlock(convertOptions.SongOutputPath)
-            {
-                VerticalAlignment = EVerticalAlignment.Center
-            });
-            
-            pathStack.Children.Add(new TextButton("Select")
-            {
-                ClickAction = SelectSongPath
-            });
-
-            topStack.Children.Add(new TextBlock("Psarc Files:")
-            {
-                Padding = new LayoutPadding(0, 10)
-            });
-
-            fileStack = new VerticalStack()
-            {
-                HorizontalAlignment = EHorizontalAlignment.Stretch,
-                ChildSpacing = 5
-            };
-            topStack.Children.Add(fileStack);
-
-            topStack.Children.Add(new TextButton("Add File")
-            {
-                ClickAction = AddFile
-            });
-
-            topStack.Children.Add(new TextBlock("Psarc Folders:")
-            {
-                Padding = new LayoutPadding(0, 10)
-            });
-
-            folderStack = new VerticalStack
-            {
-                HorizontalAlignment = EHorizontalAlignment.Stretch,
-                ChildSpacing = 5
-            };
-            topStack.Children.Add(folderStack);
-
-            topStack.Children.Add(new TextButton("Add Folder")
-            {
-                ClickAction = AddFolder
-            });
+            tabPanel.AddTab("General", GeneralTab());
+            tabPanel.AddTab("Psarc", PsarcTab());
 
             UpdateSources();
 
-            NinePatchWrapper bottomSection = new NinePatchWrapper(Layout.Current.GetImage("Outline"))
+            NinePatchWrapper bottomSection = new NinePatchWrapper(Layout.Current.GetImage("PopupBackground"))
             {
                 HorizontalAlignment = EHorizontalAlignment.Stretch,
                 VerticalAlignment = EVerticalAlignment.Stretch
@@ -177,6 +124,83 @@ namespace ChartConverter
             };
 
             convertDock.Children.Add(convertButton);
+        }
+
+        UIElement GeneralTab()
+        {
+            VerticalStack vStack = new VerticalStack()
+            {
+                HorizontalAlignment = EHorizontalAlignment.Stretch,
+                ChildSpacing = 5
+            };
+
+            vStack.Children.Add(new TextBlock("Song Output Folder:")
+            {
+                Padding = new LayoutPadding(0, 10)
+            });
+
+            HorizontalStack pathStack = new HorizontalStack()
+            {
+                ChildSpacing = 10
+            };
+            vStack.Children.Add(pathStack);
+
+            pathStack.Children.Add(songOutputText = new TextBlock(convertOptions.SongOutputPath)
+            {
+                VerticalAlignment = EVerticalAlignment.Center
+            });
+
+            pathStack.Children.Add(new TextButton("Select")
+            {
+                ClickAction = SelectSongPath
+            });
+
+            return vStack;
+        }
+
+        UIElement PsarcTab()
+        {
+            VerticalStack vStack = new VerticalStack()
+            {
+                HorizontalAlignment = EHorizontalAlignment.Stretch,
+                ChildSpacing = 5
+            };
+
+            vStack.Children.Add(new TextBlock("Psarc Files:")
+            {
+                Padding = new LayoutPadding(0, 10)
+            });
+
+            fileStack = new VerticalStack()
+            {
+                HorizontalAlignment = EHorizontalAlignment.Stretch,
+                ChildSpacing = 5
+            };
+            vStack.Children.Add(fileStack);
+
+            vStack.Children.Add(new TextButton("Add File")
+            {
+                ClickAction = AddFile
+            });
+
+            vStack.Children.Add(new TextBlock("Psarc Folders:")
+            {
+                Padding = new LayoutPadding(0, 10)
+            });
+
+            folderStack = new VerticalStack
+            {
+                HorizontalAlignment = EHorizontalAlignment.Stretch,
+                ChildSpacing = 5
+            };
+            vStack.Children.Add(folderStack);
+
+            vStack.Children.Add(new TextButton("Add Folder")
+            {
+                ClickAction = AddFolder
+            });
+
+            return vStack;
         }
 
         public void SaveOptions()
@@ -354,7 +378,10 @@ namespace ChartConverter
             {
                 try
                 {
-                    converter.ConvertPsarc(file);
+                    if (!converter.ConvertPsarc(file))
+                    {
+                        return;
+                    }
                 }
                 catch { }
             }
@@ -363,7 +390,8 @@ namespace ChartConverter
             {
                 try
                 {
-                    converter.ConvertFolder(folder);
+                    if (!converter.ConvertFolder(folder))
+                        return;
                 }
                 catch { }
             }

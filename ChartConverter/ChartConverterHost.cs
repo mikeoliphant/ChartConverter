@@ -14,6 +14,8 @@ namespace ChartConverter
         public ChartConverterHost(int screenWidth, int screenHeight, bool isFullscreen)
             : base(screenWidth, screenHeight, isFullscreen)
         {
+            UseEmbeddedResources = true;
+            UsePremultipliedAlpha = false;
         }
 
         protected override void LoadContent()

@@ -2,9 +2,7 @@
 using UILayout;
 using ChartConverter;
 
-using var host = new ChartConverterHost(1024, 600, isFullscreen: false);
-
-host.UseEmbeddedResources = true;
+using var host = new ChartConverterHost(1024, 720, isFullscreen: false);
 
 MonoGameLayout layout = new MonoGameLayout();
 

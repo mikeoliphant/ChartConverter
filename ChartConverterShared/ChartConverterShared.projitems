@@ -15,7 +15,11 @@
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\ButtonPressed.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\ButtonUnpressed.png" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\Outline.png" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\ShadowedOutline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\PopupBackground.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\TabBackground.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\TabForeground.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\TabPanelBackground.png" />
   </ItemGroup>
 </Project>
