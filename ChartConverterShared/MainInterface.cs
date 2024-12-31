@@ -186,7 +186,7 @@ namespace ChartConverter
 
         void SelectSongPath()
         {
-            string newPath = Layout.Current.GetFolder("Song Path", convertOptions.SongOutputPath);
+            string newPath = Layout.Current.GetFolder(convertOptions.SongOutputPath);
 
             if (!string.IsNullOrEmpty(newPath))
             {
@@ -202,7 +202,7 @@ namespace ChartConverter
 
         void AddFolder()
         {
-            string newPath = Layout.Current.GetFolder("New Folder", null);
+            string newPath = Layout.Current.GetFolder(null);
 
             if (!string.IsNullOrEmpty(newPath) && !convertOptions.ParseFolders.Contains(newPath))
             {
@@ -221,7 +221,7 @@ namespace ChartConverter
 
         void AddFile()
         {
-            string newFile = Layout.Current.GetFile("Add File", null, "Psarc Files|*.psarc");
+            string newFile = Layout.Current.GetFile("Add File", "Psarc Files", "psarc");
 
             if (!string.IsNullOrEmpty(newFile) && !convertOptions.ParseFiles.Contains(newFile))
             {

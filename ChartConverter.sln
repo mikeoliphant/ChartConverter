@@ -96,6 +96,7 @@ Global
 		ChartConverterShared\ChartConverterShared.projitems*{206a5643-0b91-46ab-ac79-744f4dfd47dd}*SharedItemsImports = 5
 		Dependencies\PsarcUtil\Dependencies\OpenSongChart\SongFormat\SongFormat.projitems*{5e4eff4b-5a94-4940-8055-6dfb7b974171}*SharedItemsImports = 5
 		ChartConverterShared\ChartConverterShared.projitems*{eadcd423-38ce-4d03-82a4-eb8c40c54ace}*SharedItemsImports = 13
+		Dependencies\UILayout\UILayout.CrossPlatform\UILayout.CrossPlatform.projitems*{f05802d8-6cbc-4f7f-82c1-cd8175c85cd8}*SharedItemsImports = 5
 		Dependencies\UILayout\UILayout.MonoGame\UILayout.MonoGame.projitems*{f05802d8-6cbc-4f7f-82c1-cd8175c85cd8}*SharedItemsImports = 5
 		Dependencies\UILayout\UILayout\UILayout.projitems*{f05802d8-6cbc-4f7f-82c1-cd8175c85cd8}*SharedItemsImports = 5
 	EndGlobalSection
