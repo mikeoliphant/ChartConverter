@@ -4,3 +4,6 @@
 [submodule "Dependencies/PsarcUtil"]
 	path = Dependencies/PsarcUtil
 	url = https://github.com/mikeoliphant/PsarcUtil
+[submodule "Dependencies/RockBandUtil"]
+	path = Dependencies/RockBandUtil
+	url = https://github.com/mikeoliphant/RockBandUtil
