@@ -4,11 +4,18 @@ This app provides a simple interface for converting Rocksmith PSARC and Rock ban
 
 It uses [PsarcUtil](https://github.com/mikeoliphant/PsarcUtil) and [RockBandUtil](https://github.com/mikeoliphant/RockBandUtil) under the hood.
 
-# Downloading
+## Supported chart formats
+
+ChartConverter currently supports the following formats:
+
+- Rocksmith (original and CDLC) PSARC files for Guitar, Bass and Vocals
+- RockBand (Phase Shift format) for Drums, Keys and Vocals
+
+## Downloading
 
 The latest version can be found in the releases section, [here](https://github.com/mikeoliphant/ChartConverter/releases/latest).
 
-# Running
+## Running
 
 The following external dependencies must be installed:
 
