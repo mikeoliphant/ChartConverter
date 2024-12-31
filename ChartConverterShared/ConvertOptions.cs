@@ -9,8 +9,11 @@ namespace ChartConverter
     public class ConvertOptions
     {
         public string SongOutputPath { get; set; } = "";
-        public List<string> ParseFiles { get; private set; } =  new();
-        public List<string> ParseFolders { get; private set; } = new();
+        public List<string> PsarcFiles { get; private set; } =  new();
+        public List<string> PsarcFolders { get; private set; } = new();
+        public List<string> RockBandFolders { get; private set; } = new();
+        public bool ConvertPsarc { get; set; } = true;
+        public bool ConvertRockBand { get; set; } = true;
 
         public static ConvertOptions Load(string path)
         {

@@ -30,6 +30,7 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Dependencies\PsarcUtil\PsarcUtil\PsarcUtil.csproj" />
+		<ProjectReference Include="..\Dependencies\RockBandUtil\RockBandConverter\RockBandConverter.csproj" />
 		<ProjectReference Include="..\Dependencies\UILayout\UILayout.MonoGame.DesktopGL\UILayout.MonoGame.DesktopGL.csproj" />
 	</ItemGroup>
 	<ItemGroup>
