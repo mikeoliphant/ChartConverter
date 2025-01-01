@@ -41,13 +41,13 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet publish .\ChartConverter\ChartConverter.csproj -p:PublishSingleFile=true --self-contained true
+      run: msbuild .\ChartConverter.sln /p:Configuration=Release
 
     - name: Add Win-x64 Archive
       working-directory: ${{github.workspace}}
       run: |
         mkdir win-x64-build
-        move ChartConverter\bin\Release\net8.0\win-x64\publish win-x64-build\ChartConverter
+        move ChartConverter\bin\Release\net8.0 win-x64-build\ChartConverter
         Compress-Archive -Path win-x64-build\* -Destination ChartConverterWindows.zip
     
     - name: Upload Release Asset
