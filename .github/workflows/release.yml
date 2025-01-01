@@ -41,10 +41,14 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build --configuration Release
+      run: dotnet publish .\ChartConverter\ChartConverter.csproj --runtime win-x64 -p:PublishSingleFile=true --self-contained true
 
-    - name: Create Archive
-      run: Compress-Archive -Path ${{github.workspace}}\ChartConverter\bin\Release\net8.0\* -Destination ChartConverter.zip
+    - name: Add Win-x64 Archive
+      working-directory: ${{github.workspace}}
+      run: |
+        mkdir win-x64-build
+        move ChartConverter\bin\Release\net8.0\win-x64\publish win-x64-build\ChartConverter
+        Compress-Archive -Path win-x64-build\* -Destination ChartConverterWindows.zip
     
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
@@ -52,8 +56,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.create_release.outputs.upload_url }}
-        asset_path: ./ChartConverter.zip
-        asset_name: ChartConverter.zip
+        asset_path: ./ChartConverterWindows.zip
+        asset_name: ChartConverterWindows.zip
         asset_content_type: application/zip
         
     - name: Publish Linux-x64
