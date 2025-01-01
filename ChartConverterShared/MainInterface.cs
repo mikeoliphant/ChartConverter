@@ -338,7 +338,7 @@ namespace ChartConverter
 
             if (convertOptions.ConvertRockBand)
             {
-                var converter = new RockBandConverter.RockBandConverter(convertOptions.SongOutputPath, convertAudio: false);
+                var converter = new RockBandUtil.RockBandConverter(convertOptions.SongOutputPath, convertAudio: false);
                 converter.UpdateAction = UpdateConvert;
 
                 foreach (string folder in convertOptions.RockBandFolders)

@@ -15,11 +15,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChartConverter", "ChartConv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UILayout.MonoGame.DesktopGL", "Dependencies\UILayout\UILayout.MonoGame.DesktopGL\UILayout.MonoGame.DesktopGL.csproj", "{F05802D8-6CBC-4F7F-82C1-CD8175C85CD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RockBandConverter", "Dependencies\RockBandUtil\RockBandConverter\RockBandConverter.csproj", "{3A0657CD-5E7C-486E-B521-31A8ACAA0360}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChartPlayerDX", "ChartPlayerDX\ChartPlayerDX.csproj", "{62F15C6B-8A1D-4813-8BC5-71994CFE3941}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UILayout.MonoGame.WindowsDX", "Dependencies\UILayout\UILayout.MonoGame.WindowsDX\UILayout.MonoGame.WindowsDX.csproj", "{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RockBandUtil", "Dependencies\RockBandUtil\RockBandUtil\RockBandUtil.csproj", "{5500804C-0DCC-4968-868E-409B298EB6E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,30 +89,6 @@ Global
 		{F05802D8-6CBC-4F7F-82C1-CD8175C85CD8}.Release|x64.Build.0 = Release|Any CPU
 		{F05802D8-6CBC-4F7F-82C1-CD8175C85CD8}.Release|x86.ActiveCfg = Release|Any CPU
 		{F05802D8-6CBC-4F7F-82C1-CD8175C85CD8}.Release|x86.Build.0 = Release|Any CPU
-		{3A0657CD-5E7C-486E-B521-31A8ACAA0360}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A0657CD-5E7C-486E-B521-31A8ACAA0360}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A0657CD-5E7C-486E-B521-31A8ACAA0360}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{3A0657CD-5E7C-486E-B521-31A8ACAA0360}.Debug|x64.Build.0 = Debug|Any CPU
-		{3A0657CD-5E7C-486E-B521-31A8ACAA0360}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3A0657CD-5E7C-486E-B521-31A8ACAA0360}.Debug|x86.Build.0 = Debug|Any CPU
-		{3A0657CD-5E7C-486E-B521-31A8ACAA0360}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A0657CD-5E7C-486E-B521-31A8ACAA0360}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A0657CD-5E7C-486E-B521-31A8ACAA0360}.Release|x64.ActiveCfg = Release|Any CPU
-		{3A0657CD-5E7C-486E-B521-31A8ACAA0360}.Release|x64.Build.0 = Release|Any CPU
-		{3A0657CD-5E7C-486E-B521-31A8ACAA0360}.Release|x86.ActiveCfg = Release|Any CPU
-		{3A0657CD-5E7C-486E-B521-31A8ACAA0360}.Release|x86.Build.0 = Release|Any CPU
-		{62F15C6B-8A1D-4813-8BC5-71994CFE3941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62F15C6B-8A1D-4813-8BC5-71994CFE3941}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62F15C6B-8A1D-4813-8BC5-71994CFE3941}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{62F15C6B-8A1D-4813-8BC5-71994CFE3941}.Debug|x64.Build.0 = Debug|Any CPU
-		{62F15C6B-8A1D-4813-8BC5-71994CFE3941}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{62F15C6B-8A1D-4813-8BC5-71994CFE3941}.Debug|x86.Build.0 = Debug|Any CPU
-		{62F15C6B-8A1D-4813-8BC5-71994CFE3941}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62F15C6B-8A1D-4813-8BC5-71994CFE3941}.Release|Any CPU.Build.0 = Release|Any CPU
-		{62F15C6B-8A1D-4813-8BC5-71994CFE3941}.Release|x64.ActiveCfg = Release|Any CPU
-		{62F15C6B-8A1D-4813-8BC5-71994CFE3941}.Release|x64.Build.0 = Release|Any CPU
-		{62F15C6B-8A1D-4813-8BC5-71994CFE3941}.Release|x86.ActiveCfg = Release|Any CPU
-		{62F15C6B-8A1D-4813-8BC5-71994CFE3941}.Release|x86.Build.0 = Release|Any CPU
 		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -127,6 +101,18 @@ Global
 		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Release|x64.Build.0 = Release|Any CPU
 		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Release|x86.ActiveCfg = Release|Any CPU
 		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Release|x86.Build.0 = Release|Any CPU
+		{5500804C-0DCC-4968-868E-409B298EB6E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5500804C-0DCC-4968-868E-409B298EB6E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5500804C-0DCC-4968-868E-409B298EB6E2}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5500804C-0DCC-4968-868E-409B298EB6E2}.Debug|x64.Build.0 = Debug|Any CPU
+		{5500804C-0DCC-4968-868E-409B298EB6E2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5500804C-0DCC-4968-868E-409B298EB6E2}.Debug|x86.Build.0 = Debug|Any CPU
+		{5500804C-0DCC-4968-868E-409B298EB6E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5500804C-0DCC-4968-868E-409B298EB6E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5500804C-0DCC-4968-868E-409B298EB6E2}.Release|x64.ActiveCfg = Release|Any CPU
+		{5500804C-0DCC-4968-868E-409B298EB6E2}.Release|x64.Build.0 = Release|Any CPU
+		{5500804C-0DCC-4968-868E-409B298EB6E2}.Release|x86.ActiveCfg = Release|Any CPU
+		{5500804C-0DCC-4968-868E-409B298EB6E2}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -136,9 +122,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		ChartConverterShared\ChartConverterShared.projitems*{206a5643-0b91-46ab-ac79-744f4dfd47dd}*SharedItemsImports = 5
-		Dependencies\RockBandUtil\Dependencies\OpenSongChart\SongFormat\SongFormat.projitems*{3a0657cd-5e7c-486e-b521-31a8acaa0360}*SharedItemsImports = 5
+		Dependencies\RockBandUtil\Dependencies\OpenSongChart\SongFormat\SongFormat.projitems*{5500804c-0dcc-4968-868e-409b298eb6e2}*SharedItemsImports = 5
 		Dependencies\PsarcUtil\Dependencies\OpenSongChart\SongFormat\SongFormat.projitems*{5e4eff4b-5a94-4940-8055-6dfb7b974171}*SharedItemsImports = 5
-		ChartConverterShared\ChartConverterShared.projitems*{62f15c6b-8a1d-4813-8bc5-71994cfe3941}*SharedItemsImports = 5
 		Dependencies\UILayout\UILayout.MonoGame\UILayout.MonoGame.projitems*{6f056f27-68c4-4bad-b00b-c7667d85b9c6}*SharedItemsImports = 5
 		Dependencies\UILayout\UILayout.WindowsNative\UILayout.WindowsNative.projitems*{6f056f27-68c4-4bad-b00b-c7667d85b9c6}*SharedItemsImports = 5
 		Dependencies\UILayout\UILayout\UILayout.projitems*{6f056f27-68c4-4bad-b00b-c7667d85b9c6}*SharedItemsImports = 5
