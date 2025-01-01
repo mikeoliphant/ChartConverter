@@ -41,7 +41,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet publish .\ChartConverter\ChartConverter.csproj --runtime win-x64 -p:PublishSingleFile=true --self-contained true
+      run: dotnet publish .\ChartConverter\ChartConverter.csproj -p:PublishSingleFile=true --self-contained true
 
     - name: Add Win-x64 Archive
       working-directory: ${{github.workspace}}
