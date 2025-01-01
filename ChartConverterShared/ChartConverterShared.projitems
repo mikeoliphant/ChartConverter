@@ -9,12 +9,17 @@
     <Import_RootNamespace>PsarcConverterShared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ChartConverterHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConvertOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainInterface.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Program.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\ButtonPressed.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\ButtonUnpressed.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\Font.png" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\Font.xml" />
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\SingleWhitePixel.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\PopupBackground.png" />
