@@ -1,6 +1,6 @@
 # ChartConverter
 
-This app provides a simple interface for converting Rocksmith PSARC and Rock band files to [OpenSongChart](https://github.com/mikeoliphant/OpenSongChart) format.
+This app provides a simple interface for converting Rocksmith PSARC and Rock Band files to [OpenSongChart](https://github.com/mikeoliphant/OpenSongChart) format.
 
 It uses [PsarcUtil](https://github.com/mikeoliphant/PsarcUtil) and [RockBandUtil](https://github.com/mikeoliphant/RockBandUtil) under the hood.
 
