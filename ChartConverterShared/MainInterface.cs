@@ -381,7 +381,7 @@ namespace ChartConverter
                 ChildSpacing = 5
             });
 
-            Children.Add(new TextButton("Add Folder")
+            Children.Add(new TextButton("Add " + (isFolder ? "Folder" : "File"))
             {
                 ClickAction = Add
             });
