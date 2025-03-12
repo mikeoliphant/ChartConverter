@@ -34,12 +34,16 @@ jobs:
       with:
         submodules: recursive
 
-    - name: Setup dotnet
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '7.0.x'
-    - name: Install dependencies
-      run: dotnet restore
+    - name: Setup MSBuild and add to PATH
+      uses: microsoft/setup-msbuild@v1.3.1
+
+    - name: Restore NuGet Packages
+      run:
+        dotnet restore
+        
+    - name: Build
+      run: msbuild .\ChartConverter.sln  /t:ChartConverter /p:Configuration="Release" 
+      
     - name: Build
       run: msbuild .\ChartConverter.sln /p:Configuration=Release
 
