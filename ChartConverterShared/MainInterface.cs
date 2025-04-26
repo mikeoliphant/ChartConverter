@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using UILayout;
+using SongFormat;
+using PsarcUtil;
 
 namespace ChartConverter
 {
@@ -250,7 +252,26 @@ namespace ChartConverter
             SaveOptions();
         }
 
-        bool UpdateConvert(string text)
+        EConvertOption UpdateRocksmithConvert(string artistName, string songName, string songDir)
+        {
+            currentlyConverting.Text = artistName + " - " + songName;
+
+            songsConverted++;
+            songsConvertedText.Text = songsConverted + " Songs";
+
+            convertStack.UpdateContentLayout();
+
+            if (abortConversion)
+            {
+                abortConversion = false;
+
+                return EConvertOption.Abort;
+            }
+
+            return EConvertOption.Continue;
+        }
+
+        bool UpdateRockBandConvert(string text)
         {
             currentlyConverting.Text = text;
 
@@ -297,7 +318,7 @@ namespace ChartConverter
 
                     convertButton.Text = "Convert Files";
 
-                    UpdateConvert("Finished");
+                    UpdateRockBandConvert("Finished");
 
                     convertButton.UpdateContentLayout();
                 });
@@ -310,8 +331,12 @@ namespace ChartConverter
 
             if (convertOptions.ConvertPsarc)
             {
-                PsarcUtil.PsarcConverter converter = new PsarcUtil.PsarcConverter(convertOptions.SongOutputPath, convertAudio: false);
-                converter.UpdateAction = UpdateConvert;
+                PsarcUtil.PsarcConverter converter = new PsarcUtil.PsarcConverter(convertOptions.SongOutputPath)
+                {
+                    OverwriteAudio = false,
+                    OverwriteData = true,
+                    UpdateAction = UpdateRocksmithConvert
+                };
 
                 foreach (string file in convertOptions.PsarcFiles)
                 {
@@ -339,7 +364,7 @@ namespace ChartConverter
             if (convertOptions.ConvertRockBand)
             {
                 var converter = new RockBandUtil.RockBandConverter(convertOptions.SongOutputPath, convertAudio: false);
-                converter.UpdateAction = UpdateConvert;
+                converter.UpdateAction = UpdateRockBandConvert;
 
                 foreach (string folder in convertOptions.RockBandFolders)
                 {
