@@ -23,10 +23,10 @@
 	<ItemGroup>
 		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.2.1105" />
 		<PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.2.1105" />
+		<PackageReference Include="NAudio.Core" Version="2.2.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Dependencies\PsarcUtil\PsarcUtil\PsarcUtil.csproj" />
-		<ProjectReference Include="..\Dependencies\RockBandUtil\RockBandUtil\RockBandUtil.csproj" />
 		<ProjectReference Include="..\Dependencies\UILayout\UILayout.MonoGame.DesktopGL\UILayout.MonoGame.DesktopGL.csproj" />
 	</ItemGroup>
 	<Target Name="RestoreDotnetTools" BeforeTargets="Restore">
@@ -34,4 +34,5 @@
 		<Exec Command="dotnet tool restore" />
 	</Target>
 	<Import Project="..\ChartConverterShared\ChartConverterShared.projitems" Label="Shared" />
+	<Import Project="..\..\ChartPlayer\Dependencies\OpenSongChart\SongFormat\SongFormat.projitems" Label="Shared" />
 </Project>

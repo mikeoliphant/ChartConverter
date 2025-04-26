@@ -331,7 +331,7 @@ namespace ChartConverter
 
             if (convertOptions.ConvertPsarc)
             {
-                PsarcUtil.PsarcConverter converter = new PsarcUtil.PsarcConverter(convertOptions.SongOutputPath)
+                PsarcConverter converter = new(convertOptions.SongOutputPath)
                 {
                     OverwriteAudio = false,
                     OverwriteData = true,
@@ -363,7 +363,7 @@ namespace ChartConverter
 
             if (convertOptions.ConvertRockBand)
             {
-                var converter = new RockBandUtil.RockBandConverter(convertOptions.SongOutputPath, convertAudio: false);
+                var converter = new RockBandConverter(convertOptions.SongOutputPath, convertAudio: false);
                 converter.UpdateAction = UpdateRockBandConvert;
 
                 foreach (string folder in convertOptions.RockBandFolders)
