@@ -34,5 +34,5 @@
 		<Exec Command="dotnet tool restore" />
 	</Target>
 	<Import Project="..\ChartConverterShared\ChartConverterShared.projitems" Label="Shared" />
-	<Import Project="..\..\ChartPlayer\Dependencies\OpenSongChart\SongFormat\SongFormat.projitems" Label="Shared" />
+	<Import Project="..\Dependencies\OpenSongChart\SongFormat\SongFormat.projitems" Label="Shared" />
 </Project>

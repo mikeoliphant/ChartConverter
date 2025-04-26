@@ -756,8 +756,6 @@ namespace ChartConverter
 
                                 if (val)
                                 {
-                                    float offset = 0;
-
                                     noteEvents.Add(new SongDrumNote()
                                     {
                                         TimeOffset = (float)((double)currentMicrosecond / 1000000.0),

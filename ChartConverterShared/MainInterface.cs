@@ -23,12 +23,7 @@ namespace ChartConverter
 
         ConvertOptions convertOptions;
 
-        NinePatchWrapper topSection;
-
         TextBlock songOutputText;
-
-        VerticalStack fileStack;
-        VerticalStack folderStack;
 
         VerticalStack convertStack;
         TextBlock currentlyConverting;
