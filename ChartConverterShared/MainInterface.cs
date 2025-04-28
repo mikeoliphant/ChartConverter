@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UILayout;
 using SongFormat;
 using PsarcUtil;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ChartConverter
 {
@@ -310,10 +311,11 @@ namespace ChartConverter
                     DoConvert();
 
                     convertRunning = false;
-
                     convertButton.Text = "Convert Files";
 
-                    UpdateRockBandConvert("Finished");
+                    currentlyConverting.Text = "Finished";
+
+                    convertStack.UpdateContentLayout();
 
                     convertButton.UpdateContentLayout();
                 });

@@ -77,6 +77,11 @@ namespace ChartConverter
 
         public bool ConvertFolder(string path)
         {
+            foreach (string folder in Directory.GetDirectories(path))
+            {
+                ConvertFolder(folder);
+            }
+
             foreach (string psarcPath in Directory.GetFiles(path, "*.psarc"))
             {
                 try
