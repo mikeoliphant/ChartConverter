@@ -20,7 +20,7 @@ jobs:
         dotnet restore
         
     - name: Build
-      run: msbuild .\ChartConverter.sln  /t:ChartConverter /p:Configuration="Release" 
+      run: msbuild .\ChartConverter.sln  /restore /t:Rebuild /t:ChartConverter /p:Configuration="Release" 
 
     - name: Create Archive
       uses: actions/upload-artifact@v4

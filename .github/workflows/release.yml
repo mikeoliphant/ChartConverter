@@ -40,12 +40,9 @@ jobs:
     - name: Restore NuGet Packages
       run:
         dotnet restore
-        
+              
     - name: Build
-      run: msbuild .\ChartConverter.sln  /t:ChartConverter /p:Configuration="Release" 
-      
-    - name: Build
-      run: msbuild .\ChartConverter.sln /p:Configuration=Release
+      run: msbuild .\ChartConverter.sln /restore /t:Rebuild /p:Configuration=Release
 
     - name: Add Win-x64 Archive
       working-directory: ${{github.workspace}}
