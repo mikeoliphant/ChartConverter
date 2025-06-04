@@ -334,6 +334,8 @@ namespace ChartConverter
                         });
                     }
 
+                    ChartUtil.FormatVocals(vocals);
+
                     using (FileStream stream = File.Create(Path.Combine(songDir, partName + ".json")))
                     {
                         JsonSerializer.Serialize(stream, vocals, condensedSerializerOptions);

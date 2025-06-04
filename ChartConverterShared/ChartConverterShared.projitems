@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)ChartConverterHost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ChartUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConvertOptions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainInterface.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Midi\ChannelAfterTouchEvent.cs" />

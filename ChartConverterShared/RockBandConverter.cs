@@ -189,8 +189,6 @@ namespace ChartConverter
             Dictionary<int, int> noteHash = new Dictionary<int, int>();
             List<SongDrumNote> noteEvents = new List<SongDrumNote>();
 
-            int charsInLine = 0;
-
             foreach (var track in midiFile.Events)
             {
                 Dictionary<int, long> noteDict = new Dictionary<int, long>();
@@ -388,20 +386,6 @@ namespace ChartConverter
                                     {
                                         text = text.Substring(0, text.Length - 1);
                                     }
-
-                                    if ((char.IsAsciiLetterUpper(text[0]) && charsInLine > 20) || (charsInLine > 35))
-                                    {
-                                        var last = vocals[vocals.Count - 1];
-                                        vocals[vocals.Count - 1] = new SongVocal()
-                                        {
-                                            TimeOffset = last.TimeOffset,
-                                            Vocal = last.Vocal + "\n"
-                                        };
-
-                                        charsInLine = 0;
-                                    }
-
-                                    charsInLine += text.Length;
 
                                     vocals.Add(new SongVocal()
                                     {
@@ -820,6 +804,8 @@ namespace ChartConverter
                 {
                     if (vocals.Count > 0)
                     {
+                        ChartUtil.FormatVocals(vocals);
+
                         using (FileStream stream = File.Create(Path.Combine(songDir, "rbvocals.json")))
                         {
                             JsonSerializer.Serialize(stream, vocals, SerializationUtil.CondensedSerializerOptions);
