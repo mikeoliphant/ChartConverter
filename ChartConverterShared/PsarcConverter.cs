@@ -123,14 +123,14 @@ namespace ChartConverter
                     AlbumName = songEntry.AlbumName,
                 };
 
-                string artistDir = Path.Combine(destPath, GetSafeFilename(songData.ArtistName));
+                string artistDir = Path.Combine(destPath, SerializationUtil.GetSafeFilename(songData.ArtistName));
 
                 if (!Directory.Exists(artistDir))
                 {
                     Directory.CreateDirectory(artistDir);
                 }
 
-                string songDir = Path.Combine(artistDir, GetSafeFilename(songData.SongName));
+                string songDir = Path.Combine(artistDir, SerializationUtil.GetSafeFilename(songData.SongName));
 
                 if (UpdateAction != null)
                 {
@@ -288,11 +288,6 @@ namespace ChartConverter
             }
 
             return true;
-        }
-
-        string GetSafeFilename(string path)
-        {
-            return Regex.Replace(path, "[^a-zA-Z0-9]", String.Empty).Trim();
         }
 
         SongInstrumentPart CreateInstrumentPart(string songDir, string partName, List<SongSection> partSections, SongArrangement arrangement, SngAsset songAsset, PsarcDecoder decoder)
