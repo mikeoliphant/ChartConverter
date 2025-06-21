@@ -276,6 +276,7 @@ namespace ChartConverter
                                     InstrumentName = "drums",
                                     InstrumentType = ESongInstrumentType.Drums,
                                     SongAudio = relativeSongFolder,
+                                    SongStem = "drums*.ogg",
                                     ArrangementName = "rbarrangement"
                                 });
                             }
@@ -292,6 +293,7 @@ namespace ChartConverter
                                     InstrumentName = "rbvocals",
                                     InstrumentType = ESongInstrumentType.Vocals,
                                     SongAudio = relativeSongFolder,
+                                    SongStem = "vocals.ogg",
                                     ArrangementName = "rbarrangement"
                                 });
                             }
@@ -313,6 +315,7 @@ namespace ChartConverter
                                     InstrumentName = "keys",
                                     InstrumentType = ESongInstrumentType.Keys,
                                     SongAudio = relativeSongFolder,
+                                    SongStem = "keys.ogg",
                                     ArrangementName = "rbarrangement"
                                 });
                             }
