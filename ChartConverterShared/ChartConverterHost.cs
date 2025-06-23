@@ -16,7 +16,7 @@ namespace ChartConverter
         {
             UseEmbeddedResources = true;
             UsePremultipliedAlpha = false;
-            Window.Title = "ChartConverter v0.1.7";
+            Window.Title = "ChartConverter v0.1.8";
         }
 
         protected override void LoadContent()
