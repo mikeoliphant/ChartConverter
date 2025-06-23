@@ -12,28 +12,51 @@ namespace ChartConverter
     {
         public static void FormatVocals(List<SongVocal> vocals)
         {
+            int maxCharsPerLine = 40;
+
             List<SongVocal> formattedVocals = new List<SongVocal>();
 
             int charsInLine = 0;
-            float lastTimeOffset = 0f;
+            int lastBreakPos = 0;
 
             for (int pos = 0; pos < vocals.Count; pos++)
             {
-                bool isGoodBreak = char.IsAsciiLetterUpper(vocals[pos].Vocal[0]) || (vocals[pos].TimeOffset - lastTimeOffset > 0.5f);
-
-                if ((isGoodBreak && charsInLine > 20) || (charsInLine > 35))
+                if (vocals[pos].Vocal.EndsWith('\n'))
                 {
-                    vocals[pos] = new SongVocal()
-                    {
-                        TimeOffset = vocals[pos].TimeOffset,
-                        Vocal = vocals[pos].Vocal + "\n"
-                    };
-
                     charsInLine = 0;
+                    lastBreakPos = pos;
+
+                    continue;
                 }
 
                 charsInLine += vocals[pos].Vocal.Length;
-                lastTimeOffset = vocals[pos].TimeOffset;
+
+                if (charsInLine > maxCharsPerLine)
+                {
+                    pos = lastBreakPos + 1;
+                    charsInLine = 0;
+
+                    for (; pos < vocals.Count; pos++)
+                    {
+                        charsInLine += vocals[pos].Vocal.Length;
+
+                        bool isGoodBreak = (pos < (vocals.Count - 2)) && (char.IsAsciiLetterUpper(vocals[pos + 1].Vocal[0]) || ((vocals[pos + 1].TimeOffset - vocals[pos].TimeOffset) > 0.5f));
+
+                        if ((isGoodBreak && charsInLine > 20) || (charsInLine > maxCharsPerLine))
+                        {
+                            vocals[pos] = new SongVocal()
+                            {
+                                TimeOffset = vocals[pos].TimeOffset,
+                                Vocal = vocals[pos].Vocal + "\n"
+                            };
+
+                            charsInLine = 0;
+                            lastBreakPos = pos;
+
+                            break;
+                        }
+                    }        
+                }
             }
         }
     }
