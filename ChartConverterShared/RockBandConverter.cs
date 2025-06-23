@@ -30,12 +30,12 @@ namespace ChartConverter
         public Func<string, bool> UpdateAction { get; set; }
 
         string destPath;
-        bool convertAudio;
+        bool copyAudio;
 
-        public RockBandConverter(string destPath, bool convertAudio)
+        public RockBandConverter(string destPath, bool copyAudio)
         {
             this.destPath = destPath;
-            this.convertAudio = convertAudio;
+            this.copyAudio = copyAudio;
         }
 
         public static int GetNoteOctave(int midiNoteNum)
@@ -105,9 +105,7 @@ namespace ChartConverter
         }
 
         public bool ConvertSong(string songFolder)
-        {
-            string relativeSongFolder = Path.GetRelativePath(destPath, songFolder);
-
+        {            
             RockBandIni ini = LoadSongIni(Path.Combine(songFolder, "song.ini"));
 
             SongData songData = new SongData()
@@ -127,6 +125,25 @@ namespace ChartConverter
             }
 
             string songDir = Path.Combine(artistDir, SerializationUtil.GetSafeFilename(songData.SongName));
+
+            string songAudioFolder;
+            string relativeAudioFolder;
+
+            if (copyAudio)
+            {
+                songAudioFolder = Path.Combine(songDir, "rbaudio");
+
+                if (!Directory.Exists(songAudioFolder))
+                {
+                    Directory.CreateDirectory(songAudioFolder);
+                }
+            }
+            else
+            {
+                songAudioFolder = songFolder;
+            }
+
+            relativeAudioFolder = Path.GetRelativePath(songDir, songAudioFolder);
 
             if (!Directory.Exists(songDir))
             {
@@ -275,7 +292,7 @@ namespace ChartConverter
                                 {
                                     InstrumentName = "drums",
                                     InstrumentType = ESongInstrumentType.Drums,
-                                    SongAudio = relativeSongFolder,
+                                    SongAudio = relativeAudioFolder,
                                     SongStem = "drums*.ogg",
                                     ArrangementName = "rbarrangement"
                                 });
@@ -292,7 +309,7 @@ namespace ChartConverter
                                 {
                                     InstrumentName = "rbvocals",
                                     InstrumentType = ESongInstrumentType.Vocals,
-                                    SongAudio = relativeSongFolder,
+                                    SongAudio = relativeAudioFolder,
                                     SongStem = "vocals.ogg",
                                     ArrangementName = "rbarrangement"
                                 });
@@ -314,7 +331,7 @@ namespace ChartConverter
                                 {
                                     InstrumentName = "keys",
                                     InstrumentType = ESongInstrumentType.Keys,
-                                    SongAudio = relativeSongFolder,
+                                    SongAudio = relativeAudioFolder,
                                     SongStem = "keys.ogg",
                                     ArrangementName = "rbarrangement"
                                 });
@@ -839,8 +856,17 @@ namespace ChartConverter
                 JsonSerializer.Serialize(stream, songStructure, SerializationUtil.CondensedSerializerOptions);
             }
 
-            if (convertAudio)
+            if (copyAudio)
             {
+                foreach (string audioFile in Directory.GetFiles(songFolder, "*.ogg"))
+                {
+                    string filename = Path.GetFileName(audioFile);
+
+                    if (!filename.StartsWith("crowd", StringComparison.InvariantCultureIgnoreCase) && !filename.StartsWith("preview", StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        File.Copy(audioFile, Path.Combine(songAudioFolder, filename), overwrite: true);
+                    }
+                }
             }
 
             return true;

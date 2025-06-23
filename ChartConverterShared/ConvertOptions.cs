@@ -11,6 +11,7 @@ namespace ChartConverter
         public string SongOutputPath { get; set; } = "";
         public List<string> PsarcFiles { get; private set; } =  new();
         public List<string> PsarcFolders { get; private set; } = new();
+        public bool CopyRockBandAudio { get; set; } = true;
         public List<string> RockBandFolders { get; private set; } = new();
         public bool ConvertPsarc { get; set; } = true;
         public bool ConvertRockBand { get; set; } = true;

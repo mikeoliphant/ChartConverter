@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Input;
+using PsarcUtil;
+using SongFormat;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using UILayout;
-using SongFormat;
-using PsarcUtil;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace ChartConverter
@@ -214,6 +216,28 @@ namespace ChartConverter
                 ChildSpacing = 5
             };
 
+            HorizontalStack copyStack = new HorizontalStack();
+            vStack.Children.Add(copyStack);
+
+            copyStack.Children.Add(new TextBlock("Copy RockBand Audio: ")
+            {
+                VerticalAlignment = EVerticalAlignment.Center
+            });
+
+            TextToggleButton copyRockBandButton = null;
+
+            copyStack.Children.Add(copyRockBandButton = new TextToggleButton("Yes", "No")
+            {
+                VerticalAlignment = EVerticalAlignment.Center,
+                PressAction = delegate
+                {
+                    convertOptions.CopyRockBandAudio = !convertOptions.CopyRockBandAudio;
+                    SaveOptions();
+                }                
+            });
+
+            copyRockBandButton.SetPressed(convertOptions.CopyRockBandAudio);
+
             FolderFileList psarcFolders = new FolderFileList("RockBand Folders:", convertOptions.RockBandFolders, Update, isFolder: true);
             vStack.Children.Add(psarcFolders);
 
@@ -360,7 +384,7 @@ namespace ChartConverter
 
             if (convertOptions.ConvertRockBand)
             {
-                var converter = new RockBandConverter(convertOptions.SongOutputPath, convertAudio: false);
+                var converter = new RockBandConverter(convertOptions.SongOutputPath, convertOptions.CopyRockBandAudio);
                 converter.UpdateAction = UpdateRockBandConvert;
 
                 foreach (string folder in convertOptions.RockBandFolders)
