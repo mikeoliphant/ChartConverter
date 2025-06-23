@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Midi;
@@ -293,7 +294,7 @@ namespace ChartConverter
                                     InstrumentName = "drums",
                                     InstrumentType = ESongInstrumentType.Drums,
                                     SongAudio = relativeAudioFolder,
-                                    SongStem = "drums*.ogg",
+                                    SongStem = CheckStemPattern(songFolder, "drums*.ogg"),
                                     ArrangementName = "rbarrangement"
                                 });
                             }
@@ -310,7 +311,7 @@ namespace ChartConverter
                                     InstrumentName = "rbvocals",
                                     InstrumentType = ESongInstrumentType.Vocals,
                                     SongAudio = relativeAudioFolder,
-                                    SongStem = "vocals.ogg",
+                                    SongStem = CheckStemPattern(songFolder, "vocals.ogg"),
                                     ArrangementName = "rbarrangement"
                                 });
                             }
@@ -332,7 +333,7 @@ namespace ChartConverter
                                     InstrumentName = "keys",
                                     InstrumentType = ESongInstrumentType.Keys,
                                     SongAudio = relativeAudioFolder,
-                                    SongStem = "keys.ogg",
+                                    SongStem = CheckStemPattern(songFolder, "keys.ogg"),
                                     ArrangementName = "rbarrangement"
                                 });
                             }
@@ -870,6 +871,16 @@ namespace ChartConverter
             }
 
             return true;
+        }
+
+        string CheckStemPattern(string baseFolder, string stemPath)
+        {
+            if (Directory.GetFiles(baseFolder, stemPath).Length > 0)
+            {
+                return stemPath;
+            }
+
+            return null;
         }
 
         public bool ConvertAll(string path)
