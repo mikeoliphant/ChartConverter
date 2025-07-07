@@ -187,6 +187,7 @@ namespace ChartConverter
             SongDrumNotes drumNotes = new SongDrumNotes();
             SongKeyboardNotes keyboardNotes = new SongKeyboardNotes();
             List<SongVocal> vocals = new List<SongVocal>();
+            SongInstrumentNotes bassNotes = new SongInstrumentNotes();
             SongSection lastSection = null;
 
             bool tom1 = false;
@@ -213,10 +214,14 @@ namespace ChartConverter
 
                 bool isDrums = false;
                 bool doDiscoFlip = false;
+                bool isBass = false;
                 bool isKeys = false;
                 bool isVocals = false;
                 bool isEvents = false;
                 bool isBeats = false;
+                bool isSlide = false;
+                int handFret = 0;
+                int slideFret = 0;
 
                 bool tempoMapEnded = false;
 
@@ -323,6 +328,17 @@ namespace ChartConverter
                             //}
                             else if (lower.EndsWith("real_bass"))
                             {
+                                isBass = true;
+
+                                songData.AddOrReplacePart(new SongInstrumentPart
+                                {
+                                    InstrumentName = "rbbass",
+                                    InstrumentType = ESongInstrumentType.BassGuitar,
+                                    SongAudio = relativeAudioFolder,
+                                    SongStem = CheckStemPattern(songFolder, "rhythm*.ogg"),
+                                    ArrangementName = "rbarrangement",
+                                    Tuning = new StringTuning() { StringSemitoneOffsets = new List<int> { 0, 0, 0, 0 } }
+                                });
                             }
                             else if (lower.EndsWith("real_keys_x"))
                             {
@@ -479,6 +495,86 @@ namespace ChartConverter
                                 }
 
                                 noteDict.Remove(noteEvent.NoteNumber);
+                            }
+                        }
+                        else if (isBass)
+                        {
+                            int vel = (noteEvent.CommandCode == MidiCommandCode.NoteOn) ? noteEvent.Velocity : 0;
+
+                            int nn = noteEvent.NoteNumber;
+
+                            int fret = vel - 100;
+
+                            int bassString = -1;
+
+                            switch (nn)
+                            {
+                                // E String
+                                case 96:
+                                    bassString = 0;
+                                    break;
+                                // A String
+                                case 97:
+                                    bassString = 1;
+                                    break;
+                                // D String
+                                case 98:
+                                    bassString = 2;
+                                    break;
+                                // G String
+                                case 99:
+                                    bassString = 3;
+                                    break;
+
+                                case 103:
+                                    isSlide = true;
+                                    if (fret >=0)
+                                        slideFret = fret;
+                                        break;
+
+                                case 108:
+                                    if (fret >= 0)
+                                        handFret = fret;
+                                    break;
+                            }
+
+                            if (bassString > 0)
+                            {
+                                float timeOffset = (float)((double)currentMicrosecond / 1000000.0);
+
+                                if (vel > 0)
+                                {
+                                    SongNote note = new SongNote()
+                                    {
+                                        TimeOffset = timeOffset,
+                                        Fret = fret,
+                                        String = bassString,
+                                        HandFret = handFret
+                                    };
+
+                                    bassNotes.Notes.Add(note);
+                                }
+                                else
+                                {
+                                    if (bassNotes.Notes.Count > 0)
+                                    {
+                                        SongNote lastNote = bassNotes.Notes[bassNotes.Notes.Count - 1];
+
+                                        lastNote.TimeLength = (timeOffset - lastNote.TimeOffset);
+
+                                        if (isSlide)
+                                        {
+                                            // Ignore slides for now
+
+                                            //lastNote.Techniques |= ESongNoteTechnique.Slide;
+                                            //lastNote.SlideFret = slideFret;
+
+                                            isSlide = false;
+                                        }
+
+                                        bassNotes.Notes[bassNotes.Notes.Count - 1] = lastNote;
+                                    }
+                                }
                             }
                         }
                         else if (isBeats)
@@ -804,7 +900,7 @@ namespace ChartConverter
                         noteHash.Clear();
                     }
                 }
-                
+
                 if (isDrums)
                 {
                     drumNotes.Notes.Sort((a, b) => ((a.TimeOffset == b.TimeOffset) ? (b.KitPiece.CompareTo(a.KitPiece)) : a.TimeOffset.CompareTo(b.TimeOffset)));
@@ -831,6 +927,13 @@ namespace ChartConverter
                         {
                             JsonSerializer.Serialize(stream, vocals, SerializationUtil.CondensedSerializerOptions);
                         }
+                    }
+                }
+                else if (isBass)
+                {
+                    using (FileStream stream = File.Create(Path.Combine(songDir, "rbbass.json")))
+                    {
+                        JsonSerializer.Serialize(stream, bassNotes, SerializationUtil.CondensedSerializerOptions);
                     }
                 }
                 else if (isEvents)
