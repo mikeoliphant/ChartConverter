@@ -538,7 +538,7 @@ namespace ChartConverter
                                     break;
                             }
 
-                            if (bassString > 0)
+                            if (bassString > -1)
                             {
                                 float timeOffset = (float)((double)currentMicrosecond / 1000000.0);
 
