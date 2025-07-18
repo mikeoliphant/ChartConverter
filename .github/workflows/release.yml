@@ -33,16 +33,9 @@ jobs:
     - uses: actions/checkout@v3.3.0
       with:
         submodules: recursive
-
-    - name: Setup MSBuild and add to PATH
-      uses: microsoft/setup-msbuild@v1.3.1
-
-    - name: Restore NuGet Packages
-      run:
-        dotnet restore
               
     - name: Build
-      run: msbuild .\ChartConverter.sln /restore /t:Rebuild /p:Configuration=Release
+      run: dotnet build -c Release ChartConverter
 
     - name: Add Win-x64 Archive
       working-directory: ${{github.workspace}}
