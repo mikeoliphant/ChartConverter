@@ -48,16 +48,4 @@
     <Compile Include="$(MSBuildThisFileDirectory)PsarcConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RockBandConverter.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\ButtonPressed.png" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\ButtonUnpressed.png" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\Font.png" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\Font.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\PopupBackground.png" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\TabBackground.png" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\TabForeground.png" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\TabPanelBackground.png" />
-  </ItemGroup>
 </Project>

@@ -100,6 +100,7 @@ Global
 		Dependencies\OpenSongChart\SongFormat\SongFormat.projitems*{595d9376-81d5-4163-9045-bd1d72a45b16}*SharedItemsImports = 13
 		ChartConverterShared\ChartConverterShared.projitems*{eadcd423-38ce-4d03-82a4-eb8c40c54ace}*SharedItemsImports = 13
 		Dependencies\UILayout\UILayout.CrossPlatform\UILayout.CrossPlatform.projitems*{f05802d8-6cbc-4f7f-82c1-cd8175c85cd8}*SharedItemsImports = 5
+		Dependencies\UILayout\UILayout.DefaultTextures\UILayout.DefaultTextures.projitems*{f05802d8-6cbc-4f7f-82c1-cd8175c85cd8}*SharedItemsImports = 5
 		Dependencies\UILayout\UILayout.MonoGame\UILayout.MonoGame.projitems*{f05802d8-6cbc-4f7f-82c1-cd8175c85cd8}*SharedItemsImports = 5
 		Dependencies\UILayout\UILayout\UILayout.projitems*{f05802d8-6cbc-4f7f-82c1-cd8175c85cd8}*SharedItemsImports = 5
 	EndGlobalSection

@@ -41,17 +41,6 @@ namespace ChartConverter
 
         static MainInterface()
         {
-            Layout.Current.DefaultOutlineNinePatch = Layout.Current.AddImage("PopupBackground");
-
-            Layout.Current.DefaultPressedNinePatch = Layout.Current.AddImage("ButtonPressed");
-            Layout.Current.DefaultUnpressedNinePatch = Layout.Current.AddImage("ButtonUnpressed");
-
-            Layout.Current.DefaultDragImage = Layout.Current.GetImage("ButtonPressed");
-
-            Layout.Current.AddImage("TabPanelBackground");
-            Layout.Current.AddImage("TabBackground");
-            Layout.Current.AddImage("TabForeground");
-
             Layout.Current.DefaultForegroundColor = UIColor.White;
         }
 
@@ -91,7 +80,7 @@ namespace ChartConverter
             tabPanel.AddTab("Psarc", PsarcTab());
             tabPanel.AddTab("RockBand", RockBandTab());
 
-            NinePatchWrapper bottomSection = new NinePatchWrapper(Layout.Current.GetImage("PopupBackground"))
+            NinePatchWrapper bottomSection = new NinePatchWrapper(Layout.Current.DefaultOutlineNinePatch)
             {
                 HorizontalAlignment = EHorizontalAlignment.Stretch,
                 VerticalAlignment = EVerticalAlignment.Stretch
