@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChartConverter", "ChartConv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UILayout.MonoGame.DesktopGL", "Dependencies\UILayout\UILayout.MonoGame.DesktopGL\UILayout.MonoGame.DesktopGL.csproj", "{F05802D8-6CBC-4F7F-82C1-CD8175C85CD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UILayout.MonoGame.WindowsDX", "Dependencies\UILayout\UILayout.MonoGame.WindowsDX\UILayout.MonoGame.WindowsDX.csproj", "{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}"
-EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SongFormat", "Dependencies\OpenSongChart\SongFormat\SongFormat.shproj", "{595D9376-81D5-4163-9045-BD1D72A45B16}"
 EndProject
 Global
@@ -89,18 +87,6 @@ Global
 		{F05802D8-6CBC-4F7F-82C1-CD8175C85CD8}.Release|x64.Build.0 = Release|Any CPU
 		{F05802D8-6CBC-4F7F-82C1-CD8175C85CD8}.Release|x86.ActiveCfg = Release|Any CPU
 		{F05802D8-6CBC-4F7F-82C1-CD8175C85CD8}.Release|x86.Build.0 = Release|Any CPU
-		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Debug|x64.Build.0 = Debug|Any CPU
-		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Debug|x86.Build.0 = Debug|Any CPU
-		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Release|x64.ActiveCfg = Release|Any CPU
-		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Release|x64.Build.0 = Release|Any CPU
-		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Release|x86.ActiveCfg = Release|Any CPU
-		{6F056F27-68C4-4BAD-B00B-C7667D85B9C6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,9 +98,6 @@ Global
 		ChartConverterShared\ChartConverterShared.projitems*{206a5643-0b91-46ab-ac79-744f4dfd47dd}*SharedItemsImports = 5
 		Dependencies\OpenSongChart\SongFormat\SongFormat.projitems*{206a5643-0b91-46ab-ac79-744f4dfd47dd}*SharedItemsImports = 5
 		Dependencies\OpenSongChart\SongFormat\SongFormat.projitems*{595d9376-81d5-4163-9045-bd1d72a45b16}*SharedItemsImports = 13
-		Dependencies\UILayout\UILayout.MonoGame\UILayout.MonoGame.projitems*{6f056f27-68c4-4bad-b00b-c7667d85b9c6}*SharedItemsImports = 5
-		Dependencies\UILayout\UILayout.WindowsNative\UILayout.WindowsNative.projitems*{6f056f27-68c4-4bad-b00b-c7667d85b9c6}*SharedItemsImports = 5
-		Dependencies\UILayout\UILayout\UILayout.projitems*{6f056f27-68c4-4bad-b00b-c7667d85b9c6}*SharedItemsImports = 5
 		ChartConverterShared\ChartConverterShared.projitems*{eadcd423-38ce-4d03-82a4-eb8c40c54ace}*SharedItemsImports = 13
 		Dependencies\UILayout\UILayout.CrossPlatform\UILayout.CrossPlatform.projitems*{f05802d8-6cbc-4f7f-82c1-cd8175c85cd8}*SharedItemsImports = 5
 		Dependencies\UILayout\UILayout.MonoGame\UILayout.MonoGame.projitems*{f05802d8-6cbc-4f7f-82c1-cd8175c85cd8}*SharedItemsImports = 5

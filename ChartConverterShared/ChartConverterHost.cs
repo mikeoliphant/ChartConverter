@@ -32,8 +32,6 @@ namespace ChartConverter
                 Layout.DefaultFont = new UIFont { SpriteFont = UILayout.SpriteFont.CreateFromDefinition(fontDef) };
             }
 
-            Layout.GraphicsContext.SingleWhitePixelImage = new UIImage("SingleWhitePixel");
-
             Layout.RootUIElement = new MainInterface();
         }
     }

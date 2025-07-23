@@ -53,7 +53,6 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\ButtonUnpressed.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\Font.png" />
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\Font.xml" />
-    <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\SingleWhitePixel.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Textures\PopupBackground.png" />
