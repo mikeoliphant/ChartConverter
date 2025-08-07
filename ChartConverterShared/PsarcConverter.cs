@@ -153,6 +153,26 @@ namespace ChartConverter
                         continue;
                 }
 
+                string songPath = Path.Combine(songDir, "song.json");
+
+                if (File.Exists(songPath))
+                {
+                    try
+                    {
+                        using (FileStream stream = File.OpenRead(songPath))
+                        {
+                            var data = JsonSerializer.Deserialize(stream, typeof(SongData), SerializationUtil.IndentedSerializerOptions) as SongData;
+
+                            if (data != null)
+                            {
+                                songData = data;
+                            }
+                        }
+                    }
+                    catch { }
+                }
+
+
                 SongStructure songStructure = new SongStructure();
 
                 foreach (string arrangementName in songEntry.Arrangements.Keys)
@@ -217,7 +237,7 @@ namespace ChartConverter
 
                             SongInstrumentPart part = CreateInstrumentPart(songDir, arrangementName, partSections, arrangement, asset, decoder);
 
-                            songData.InstrumentParts.Add(part);
+                            songData.AddOrReplacePart(part);
 
                             if (songData.A440CentsOffset == 0)
                                 songData.A440CentsOffset = arrangement.Attributes.CentOffset;

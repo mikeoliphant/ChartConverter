@@ -190,7 +190,6 @@ namespace ChartConverter
             psarcFiles.SetFilter("Psarc Files", "psarc");
             vStack.Children.Add(psarcFiles);
 
-
             FolderFileList psarcFolders = new FolderFileList("Psarc Folders:", convertOptions.PsarcFolders, Update, isFolder: true);
             vStack.Children.Add(psarcFolders);
 
@@ -341,50 +340,60 @@ namespace ChartConverter
 
             if (convertOptions.ConvertPsarc)
             {
-                PsarcConverter converter = new(convertOptions.SongOutputPath)
-                {
-                    OverwriteAudio = false,
-                    OverwriteData = true,
-                    UpdateAction = UpdateRocksmithConvert
-                };
-
-                foreach (string file in convertOptions.PsarcFiles)
-                {
-                    try
-                    {
-                        if (!converter.ConvertPsarc(file))
-                        {
-                            return;
-                        }
-                    }
-                    catch { }
-                }
-
-                foreach (string folder in convertOptions.PsarcFolders)
-                {
-                    try
-                    {
-                        if (!converter.ConvertFolder(folder))
-                            return;
-                    }
-                    catch { }
-                }
+                ConvertPsarc();
             }
 
             if (convertOptions.ConvertRockBand)
             {
-                var converter = new RockBandConverter(convertOptions.SongOutputPath, convertOptions.CopyRockBandAudio);
-                converter.UpdateAction = UpdateRockBandConvert;
+                ConvertRockBand();
+            }
+        }
 
-                foreach (string folder in convertOptions.RockBandFolders)
+        void ConvertPsarc()
+        {
+            PsarcConverter converter = new(convertOptions.SongOutputPath)
+            {
+                OverwriteAudio = false,
+                OverwriteData = true,
+                UpdateAction = UpdateRocksmithConvert
+            };
+
+            foreach (string file in convertOptions.PsarcFiles)
+            {
+                try
                 {
-                    try
+                    if (!converter.ConvertPsarc(file))
                     {
-                        if (!converter.ConvertAll(folder))
-                            return;
+                        return;
                     }
-                    catch { }
                 }
+                catch { }
+            }
+
+            foreach (string folder in convertOptions.PsarcFolders)
+            {
+                try
+                {
+                    if (!converter.ConvertFolder(folder))
+                        return;
+                }
+                catch { }
+            }
+        }
+
+        void ConvertRockBand()
+        {
+            var converter = new RockBandConverter(convertOptions.SongOutputPath, convertOptions.CopyRockBandAudio);
+            converter.UpdateAction = UpdateRockBandConvert;
+
+            foreach (string folder in convertOptions.RockBandFolders)
+            {
+                try
+                {
+                    if (!converter.ConvertAll(folder))
+                        return;
+                }
+                catch { }
             }
         }
     }
