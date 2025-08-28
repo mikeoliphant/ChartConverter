@@ -315,6 +315,7 @@ namespace ChartConverter
             SongInstrumentPart part = new SongInstrumentPart()
             {
                 InstrumentName = partName,
+                SongDifficulty = arrangement.Attributes.SongDifficulty,
             };
 
             if (arrangement.Attributes.ArrangementProperties == null)
