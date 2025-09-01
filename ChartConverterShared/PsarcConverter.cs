@@ -312,10 +312,14 @@ namespace ChartConverter
 
         SongInstrumentPart CreateInstrumentPart(string songDir, string partName, List<SongSection> partSections, SongArrangement arrangement, SngAsset songAsset, PsarcDecoder decoder)
         {
+            float songDifficulty = Math.Min(arrangement.Attributes.SongDifficulty * 5, 5);
+
+            songDifficulty = (int)(songDifficulty * 10) / 10.0f;
+
             SongInstrumentPart part = new SongInstrumentPart()
             {
                 InstrumentName = partName,
-                SongDifficulty = arrangement.Attributes.SongDifficulty,
+                SongDifficulty = songDifficulty
             };
 
             if (arrangement.Attributes.ArrangementProperties == null)

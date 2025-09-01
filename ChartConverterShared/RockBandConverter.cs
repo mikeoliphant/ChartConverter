@@ -16,6 +16,10 @@ namespace ChartConverter
         public string Album { get; set; }
         public int MidiDelay { get; set; } = 0;
         public bool IsRockBand4 { get; set; } = false;
+        public float DrumDifficulty { get; set; } = 0;
+        public float BassDifficulty { get; set; } = 0;
+        public float VocalDifficulty { get; set; } = 0;
+        public float KeysDifficulty { get; set; } = 0;
     }
 
     public enum EFretsOnFireDifficulty
@@ -68,33 +72,63 @@ namespace ChartConverter
 
                         string value = string.Join("=", values, 1, values.Length - 1).Trim();
 
-                        if (key == "name")
+                        switch (key)
                         {
-                            ini.Song = value;
-                        }
-                        else if (key == "artist")
-                        {
-                            ini.Artist = value;
-                        }
-                        else if (key == "album")
-                        {
-                            ini.Album = value;
-                        }
-                        else if (key == "delay")
-                        {
-                            int delay = 0;
+                            case "name":
+                                ini.Song = value;
+                                break;
+                            case "artist":
+                                ini.Artist = value;
+                                break;
+                            case "album":
+                                ini.Album = value;
+                                break;
+                            case "delay":
+                                int delay = 0;
 
-                            if (int.TryParse(value, out delay))
-                            {
-                                ini.MidiDelay = delay;
-                            }
-                        }
-                        else if (key == "icon")
-                        {
-                            if (value.ToLower() == "rb4")
-                            {
-                                ini.IsRockBand4 = true;
-                            }
+                                if (int.TryParse(value, out delay))
+                                {
+                                    ini.MidiDelay = delay;
+                                }
+                                break;
+                            case "icon":
+                                if (value.ToLower() == "rb4")
+                                {
+                                    ini.IsRockBand4 = true;
+                                }
+                                break;
+                            case "diff_bass":
+                                float bassDiff = 0;
+
+                                if (float.TryParse(value, out bassDiff))
+                                {
+                                    ini.BassDifficulty = bassDiff;
+                                }
+                                break;
+                            case "diff_vocals":
+                                float vocalDiff = 0;
+
+                                if (float.TryParse(value, out vocalDiff))
+                                {
+                                    ini.VocalDifficulty = vocalDiff;
+                                }
+                                break;
+                            case "diff_keys":
+                                float keysDiff = 0;
+
+                                if (float.TryParse(value, out keysDiff))
+                                {
+                                    ini.KeysDifficulty = keysDiff;
+                                }
+                                break;
+                            case "diff_drums":
+                                float drumsDiff = 0;
+
+                                if (float.TryParse(value, out drumsDiff))
+                                {
+                                    ini.DrumDifficulty = drumsDiff;
+                                }
+                                break;
                         }
                     }
                 }
@@ -300,7 +334,8 @@ namespace ChartConverter
                                     InstrumentType = ESongInstrumentType.Drums,
                                     SongAudio = relativeAudioFolder,
                                     SongStem = CheckStemPattern(songFolder, "drums*.ogg"),
-                                    ArrangementName = "rbarrangement"
+                                    ArrangementName = "rbarrangement",
+                                    SongDifficulty = ini.DrumDifficulty
                                 });
                             }
                             else if (lower.EndsWith("beat"))
@@ -317,7 +352,8 @@ namespace ChartConverter
                                     InstrumentType = ESongInstrumentType.Vocals,
                                     SongAudio = relativeAudioFolder,
                                     SongStem = CheckStemPattern(songFolder, "vocals.ogg"),
-                                    ArrangementName = "rbarrangement"
+                                    ArrangementName = "rbarrangement",
+                                    SongDifficulty = ini.VocalDifficulty
                                 });
                             }
                             //else if (lower.Contains("harm"))
@@ -337,7 +373,8 @@ namespace ChartConverter
                                     SongAudio = relativeAudioFolder,
                                     SongStem = CheckStemPattern(songFolder, "rhythm*.ogg"),
                                     ArrangementName = "rbarrangement",
-                                    Tuning = new StringTuning() { StringSemitoneOffsets = new List<int> { 0, 0, 0, 0 } }
+                                    Tuning = new StringTuning() { StringSemitoneOffsets = new List<int> { 0, 0, 0, 0 } },
+                                    SongDifficulty = ini.BassDifficulty
                                 });
                             }
                             else if (lower.EndsWith("real_keys_x"))
@@ -350,7 +387,8 @@ namespace ChartConverter
                                     InstrumentType = ESongInstrumentType.Keys,
                                     SongAudio = relativeAudioFolder,
                                     SongStem = CheckStemPattern(songFolder, "keys.ogg"),
-                                    ArrangementName = "rbarrangement"
+                                    ArrangementName = "rbarrangement",
+                                    SongDifficulty = ini.KeysDifficulty
                                 });
                             }
                             else if (lower.EndsWith("events"))
