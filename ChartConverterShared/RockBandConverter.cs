@@ -5,6 +5,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using Midi;
+using NVorbis;
 using SongFormat;
 
 namespace ChartConverter
@@ -139,6 +140,25 @@ namespace ChartConverter
             return null;
         }
 
+        public float GetOggLength(string path)
+        {
+            if (!File.Exists(path))
+                return 0;
+
+            try
+            {
+                var reader = new VorbisReader(path);
+
+                if (reader != null)
+                {
+                    return (float)reader.TotalTime.TotalSeconds;
+                }
+            }
+            catch { }
+
+            return 0;
+        }
+
         public bool ConvertSong(string songFolder)
         {            
             RockBandIni ini = LoadSongIni(Path.Combine(songFolder, "song.ini"));
@@ -210,6 +230,18 @@ namespace ChartConverter
                     }
                 }
                 catch { }
+            }
+
+            if (songData.SongLengthSeconds == 0)
+            {
+                float songLength = GetOggLength(Path.Combine(songFolder, "song.ogg"));
+
+                if (songLength < 10)
+                {
+                    songLength = Math.Max(songLength, GetOggLength(Path.Combine(songFolder, "guitar.ogg")));
+                }
+
+                songData.SongLengthSeconds = songLength;
             }
 
             int ticksPerBeat = midiFile.DeltaTicksPerQuarterNote;

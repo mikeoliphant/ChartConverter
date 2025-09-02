@@ -23,6 +23,7 @@
 	<ItemGroup>
 		<PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4" />
 		<PackageReference Include="NAudio.Core" Version="2.2.1" />
+		<PackageReference Include="NVorbis" Version="0.10.5" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Dependencies\PsarcUtil\PsarcUtil\PsarcUtil.csproj" />
