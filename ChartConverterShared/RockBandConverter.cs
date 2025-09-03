@@ -103,7 +103,7 @@ namespace ChartConverter
 
                                 if (float.TryParse(value, out bassDiff))
                                 {
-                                    ini.BassDifficulty = bassDiff;
+                                    ini.BassDifficulty = float.Clamp(bassDiff, 0, 5);
                                 }
                                 break;
                             case "diff_vocals":
@@ -111,7 +111,7 @@ namespace ChartConverter
 
                                 if (float.TryParse(value, out vocalDiff))
                                 {
-                                    ini.VocalDifficulty = vocalDiff;
+                                    ini.VocalDifficulty = float.Clamp(vocalDiff, 0, 5);
                                 }
                                 break;
                             case "diff_keys":
@@ -119,7 +119,7 @@ namespace ChartConverter
 
                                 if (float.TryParse(value, out keysDiff))
                                 {
-                                    ini.KeysDifficulty = keysDiff;
+                                    ini.KeysDifficulty = float.Clamp(keysDiff, 0, 5);
                                 }
                                 break;
                             case "diff_drums":
@@ -127,7 +127,7 @@ namespace ChartConverter
 
                                 if (float.TryParse(value, out drumsDiff))
                                 {
-                                    ini.DrumDifficulty = drumsDiff;
+                                    ini.DrumDifficulty = float.Clamp(drumsDiff, 0, 5);
                                 }
                                 break;
                         }
