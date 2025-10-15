@@ -273,6 +273,7 @@ namespace ChartConverter
             bool doChoke = false;
             Dictionary<int, int> noteHash = new Dictionary<int, int>();
             List<SongDrumNote> noteEvents = new List<SongDrumNote>();
+            float midiTimeOffset = (float)ini.MidiDelay / 1000.0f;
 
             foreach (var track in midiFile.Events)
             {
@@ -496,7 +497,7 @@ namespace ChartConverter
 
                                     vocals.Add(new SongVocal()
                                     {
-                                        TimeOffset = (float)((double)currentMicrosecond / 1000000.0),
+                                        TimeOffset = (float)((double)currentMicrosecond / 1000000.0) + midiTimeOffset,
                                         Vocal = text
                                     });
                                 }
@@ -554,7 +555,7 @@ namespace ChartConverter
 
                                     SongKeyboardNote note = new SongKeyboardNote()
                                     {
-                                        TimeOffset = (float)((double)start / 1000000.0),
+                                        TimeOffset = (float)((double)start / 1000000.0) + midiTimeOffset,
                                         //TimeLength =  (ticks > 240) ? (float)((double)(currentMicrosecond - start) / 1000000.0) : 0,
                                         TimeLength = (float)((double)(currentMicrosecond - start) / 1000000.0),
                                         Note = noteEvent.NoteNumber,
@@ -610,7 +611,7 @@ namespace ChartConverter
 
                             if (bassString > -1)
                             {
-                                float timeOffset = (float)((double)currentMicrosecond / 1000000.0);
+                                float timeOffset = (float)((double)currentMicrosecond / 1000000.0) + midiTimeOffset;
 
                                 if (vel > 0)
                                 {
@@ -656,7 +657,7 @@ namespace ChartConverter
                                 {
                                     songStructure.Beats.Add(new SongBeat()
                                     {
-                                        TimeOffset = (float)((double)currentMicrosecond / 1000000.0),
+                                        TimeOffset = (float)((double)currentMicrosecond / 1000000.0) + midiTimeOffset,
                                         IsMeasure = (noteEvent.NoteNumber == 12)
                                     });
                                 }
@@ -929,7 +930,7 @@ namespace ChartConverter
                                 {
                                     noteEvents.Add(new SongDrumNote()
                                     {
-                                        TimeOffset = (float)((double)currentMicrosecond / 1000000.0),
+                                        TimeOffset = (float)((double)currentMicrosecond / 1000000.0) + midiTimeOffset,
                                         KitPiece = kitPiece,
                                         Articulation = articulation
                                     });
@@ -948,7 +949,7 @@ namespace ChartConverter
                         {
                             noteEvents.Add(new SongDrumNote()
                             {
-                                TimeOffset = (float)((double)(currentMicrosecond - (currentMicrosecondsPerQuarterNote * .05f)) / 1000000.0),
+                                TimeOffset = (float)((double)(currentMicrosecond - (currentMicrosecondsPerQuarterNote * .05f)) / 1000000.0) + midiTimeOffset,
                                 KitPiece = EDrumKitPiece.Snare
                             });
                         }
@@ -957,7 +958,7 @@ namespace ChartConverter
                         {
                             noteEvents.Add(new SongDrumNote()
                             {
-                                TimeOffset = (float)((double)currentMicrosecond / 1000000.0),
+                                TimeOffset = (float)((double)currentMicrosecond / 1000000.0) + midiTimeOffset,
                                 KitPiece = EDrumKitPiece.Crash,
                                 Articulation = EDrumArticulation.CymbalChoke
                             });
