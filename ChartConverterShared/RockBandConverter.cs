@@ -948,7 +948,7 @@ namespace ChartConverter
                         {
                             noteEvents.Add(new SongDrumNote()
                             {
-                                TimeOffset = (float)((double)currentMicrosecond / 1000000.0) + (currentMicrosecondsPerQuarterNote * .1f),
+                                TimeOffset = (float)((double)(currentMicrosecond - (currentMicrosecondsPerQuarterNote * .05f)) / 1000000.0),
                                 KitPiece = EDrumKitPiece.Snare
                             });
                         }
