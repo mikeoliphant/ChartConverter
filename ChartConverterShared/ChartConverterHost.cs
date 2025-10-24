@@ -15,7 +15,7 @@ namespace ChartConverter
             : base(screenWidth, screenHeight, isFullscreen)
         {
             UsePremultipliedAlpha = false;
-            Window.Title = "ChartConverter v0.1.10";
+            Window.Title = "ChartConverter v0.1.11";
         }
 
         protected override void LoadContent()

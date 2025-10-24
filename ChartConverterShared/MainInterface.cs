@@ -260,8 +260,16 @@ namespace ChartConverter
             SaveOptions();
         }
 
+        HashSet<string> convertedPaths = new();
+
         EConvertOption UpdateRocksmithConvert(string artistName, string songName, string songDir)
         {
+            if (convertedPaths.Contains(songDir))
+            {
+            }
+
+            convertedPaths.Add(songDir);
+
             currentlyConverting.Text = artistName + " - " + songName;
 
             songsConverted++;
@@ -336,6 +344,8 @@ namespace ChartConverter
 
         void DoConvert()
         {
+            convertedPaths.Clear();
+
             songsConverted = 0;
 
             if (convertOptions.ConvertPsarc)
