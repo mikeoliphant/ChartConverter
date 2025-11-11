@@ -38,6 +38,7 @@ namespace ChartConverter
 
         bool abortConversion;
         bool convertRunning;
+        string oneOffPath;
 
         static MainInterface()
         {
@@ -193,6 +194,20 @@ namespace ChartConverter
             FolderFileList psarcFolders = new FolderFileList("Psarc Folders:", convertOptions.PsarcFolders, Update, isFolder: true);
             vStack.Children.Add(psarcFolders);
 
+            TextButton oneShotButton = new TextButton("One Off")
+            {
+                ClickAction = delegate
+                {
+                    oneOffPath = Layout.Current.GetFolder(null);
+
+                    if (!string.IsNullOrEmpty(oneOffPath))
+                    {
+                        ConvertFiles();
+                    }
+                }
+            };
+            vStack.Children.Add(oneShotButton);
+
             return vStack;
         }
 
@@ -330,6 +345,8 @@ namespace ChartConverter
                 {
                     DoConvert();
 
+                    oneOffPath = null;
+
                     convertRunning = false;
                     convertButton.Text = "Convert Files";
 
@@ -350,7 +367,8 @@ namespace ChartConverter
 
             if (convertOptions.ConvertPsarc)
             {
-                ConvertPsarc();
+                if (!ConvertPsarc())
+                    return;
             }
 
             if (convertOptions.ConvertRockBand)
@@ -359,7 +377,7 @@ namespace ChartConverter
             }
         }
 
-        void ConvertPsarc()
+        bool ConvertPsarc()
         {
             PsarcConverter converter = new(convertOptions.SongOutputPath)
             {
@@ -368,13 +386,24 @@ namespace ChartConverter
                 UpdateAction = UpdateRocksmithConvert
             };
 
+            if (!string.IsNullOrEmpty(oneOffPath))
+            {
+                try
+                {
+                    converter.ConvertFolder(oneOffPath);
+                }
+                catch { }
+
+                return false;
+            }
+
             foreach (string file in convertOptions.PsarcFiles)
             {
                 try
                 {
                     if (!converter.ConvertPsarc(file))
                     {
-                        return;
+                        return false;
                     }
                 }
                 catch { }
@@ -385,14 +414,19 @@ namespace ChartConverter
                 try
                 {
                     if (!converter.ConvertFolder(folder))
-                        return;
+                        return false;
                 }
                 catch { }
             }
+
+            return true;
         }
 
-        void ConvertRockBand()
+        bool ConvertRockBand()
         {
+            if (!string.IsNullOrEmpty(oneOffPath))
+                return false;
+
             var converter = new RockBandConverter(convertOptions.SongOutputPath, convertOptions.CopyRockBandAudio);
             converter.UpdateAction = UpdateRockBandConvert;
 
@@ -401,10 +435,12 @@ namespace ChartConverter
                 try
                 {
                     if (!converter.ConvertAll(folder))
-                        return;
+                        return false;
                 }
                 catch { }
             }
+
+            return true;
         }
     }
 
