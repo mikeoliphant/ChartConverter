@@ -25,6 +25,16 @@ namespace ChartConverter
         Abort
     }
 
+    public class PsarcConverterFiles
+    {
+        public SongData Song { get; set; } // song.json
+        public SongStructure Arrangement { get; set; } // arrangement.json
+        public List<SongVocal> Vocals { get; set; } // vocal.json
+        public Dictionary<string, SongInstrumentNotes> Parts { get; set; } = []; // [part].json
+        public byte[] AlbumArt { get; set; } // albumart.png
+        public byte[] AudioFile { get; set; } // song.ogg 
+    }
+
     public class PsarcConverter
     {
         public Func<string, string, string, EConvertOption> UpdateAction { get; set; }
@@ -70,6 +80,10 @@ namespace ChartConverter
                 }
         }
 
+        public PsarcConverter()
+        {
+        }
+
         public PsarcConverter(string destPath)
         {
             this.destPath = destPath;
@@ -77,6 +91,10 @@ namespace ChartConverter
 
         public bool ConvertFolder(string path)
         {
+            if (string.IsNullOrEmpty(destPath)) {
+                throw new ArgumentNullException(nameof(destPath), "Destination path must be set before converting a folder");
+            }
+
             foreach (string folder in Directory.GetDirectories(path))
             {
                 ConvertFolder(folder);
@@ -97,6 +115,10 @@ namespace ChartConverter
 
         public bool ConvertPsarc(string psarcPath)
         {
+            if (string.IsNullOrEmpty(destPath)) {
+                throw new ArgumentNullException(nameof(destPath), "Destination path must be set before converting a psarc");
+            }
+
             PsarcDecoder decoder = new PsarcDecoder(psarcPath);
 
             PsarcDecoder songsDecoder = decoder;
@@ -114,14 +136,7 @@ namespace ChartConverter
 
             foreach (PsarcSongEntry songEntry in decoder.AllSongs)
             {
-                SongData songData = new SongData()
-                {
-                    SongName = songEntry.SongName,
-                    SongYear = songEntry.SongYear,
-                    SongLengthSeconds = songEntry.SongLengthSeconds,
-                    ArtistName = songEntry.ArtistName,
-                    AlbumName = songEntry.AlbumName,
-                };
+                SongData songData = GetSongData(songEntry);
 
                 string artistDir = Path.Combine(destPath, SerializationUtil.GetSafeFilename(songData.ArtistName));
 
@@ -172,82 +187,22 @@ namespace ChartConverter
                     catch { }
                 }
 
-
-                SongStructure songStructure = new SongStructure();
-
-                foreach (string arrangementName in songEntry.Arrangements.Keys)
-                {
-                    try
+                ProcessArrangements(songEntry, decoder, songData, out SongStructure songStructure,
+                    saveVocals: (string partName, List<SongVocal> vocals) =>
                     {
-                        SongArrangement arrangement = songEntry.Arrangements[arrangementName];
-
-                        SngAsset asset = decoder.GetSongAsset(songEntry.SongKey, arrangementName);
-
-                        List<SongSection> partSections = new List<SongSection>();
-
-                        if (asset != null)
+                        using (FileStream stream = File.Create(Path.Combine(songDir, partName + ".json")))
                         {
-                            if ((asset.BPMs != null) && (asset.BPMs.Length > songStructure.Beats.Count))
-                            {
-                                songStructure.Beats.Clear();
-
-                                foreach (Bpm bpm in asset.BPMs)
-                                {
-                                    songStructure.Beats.Add(new SongBeat
-                                    {
-                                        TimeOffset = bpm.Time,
-                                        IsMeasure = (bpm.Mask > 0),
-                                    });
-                                }
-                            }
-
-                            if (asset.PhraseIterations != null)
-                            {
-                                foreach (PhraseIteration it in asset.PhraseIterations)
-                                {
-                                    Phrase phrase = asset.Phrases[it.PhraseId];
-
-                                    SongSection songSection = new SongSection
-                                    {
-                                        Name = phrase.Name,
-                                        StartTime = it.StartTime,
-                                        EndTime = it.NextPhraseTime
-                                    };
-
-                                    partSections.Add(songSection);
-                                }
-                            }
-
-                            //if (asset.Sections != null)
-                            //{
-                            //    songStructure.Sections.Clear();
-
-                            //    foreach (Section section in asset.Sections)
-                            //    {
-                            //        SongSection songSection = new SongSection
-                            //        {
-                            //            Name = section.Name,
-                            //            StartTime = section.StartTime,
-                            //            EndTime = section.EndTime
-                            //        };
-
-                            //        partSections.Add(songSection);
-                            //    }
-                            //}
-
-                            SongInstrumentPart part = CreateInstrumentPart(songDir, arrangementName, partSections, arrangement, asset, decoder);
-
-                            songData.AddOrReplacePart(part);
-
-                            if (songData.A440CentsOffset == 0)
-                                songData.A440CentsOffset = arrangement.Attributes.CentOffset;
+                            JsonSerializer.Serialize(stream, vocals, condensedSerializerOptions);
+                        }
+                    },
+                    saveNotes: (string partName, SongInstrumentNotes notes) =>
+                    {
+                        using (FileStream stream = File.Create(Path.Combine(songDir, partName + ".json")))
+                        {
+                            JsonSerializer.Serialize(stream, notes, condensedSerializerOptions);
                         }
                     }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine("Error: " + ex.ToString());
-                    }
-                }
+                );
 
                 using (FileStream stream = File.Create(Path.Combine(songDir, "song.json")))
                 {
@@ -259,58 +214,82 @@ namespace ChartConverter
                     JsonSerializer.Serialize(stream, songStructure, indentedSerializerOptions);
                 }
 
-                try
-                {
-                    DdsAsset albumArt = decoder.GetAlbumArtAsset(songEntry.SongKey, 256);
-
-                    if (albumArt != null)
-                    {
+                SaveAlbumArt(songEntry, decoder,
+                    save: (System.Drawing.Bitmap bitmap) =>
+                    { 
                         string albumPath = Path.Combine(songDir, "albumart.png");
-
-                        albumArt.Bitmap.Save(albumPath, System.Drawing.Imaging.ImageFormat.Png);
+                        bitmap.Save(albumPath, System.Drawing.Imaging.ImageFormat.Png);
                     }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error createing album art: " + ex.ToString());
-                }
+                );
 
-                PsarcTOCEntry bankEntry = songsDecoder.GetTOCEntry(songEntry.SongBank);
-
-                TextWriter consoleOut = Console.Out;
-
-                if (bankEntry != null)
-                {
-                    string audioFile = Path.Combine(songDir, "song.ogg");
-
-                    if (OverwriteAudio || !File.Exists(audioFile))
-                    {
-                        try
+                string audioFile = Path.Combine(songDir, "song.ogg");
+                
+                if (OverwriteAudio || !File.Exists(audioFile)) {
+                    SaveAudioFile(songEntry, songsDecoder,
+                        save: (byte[] data) =>
                         {
-                            using (Stream outputStream = File.Create(audioFile))
-                            {
-                                // Suppress Ww2ogg logging
-                                Console.SetOut(TextWriter.Null);
-
-                                songsDecoder.WriteOgg(songEntry.SongKey, outputStream, bankEntry);
-
-                                Console.SetOut(consoleOut);
-                            }
+                            File.WriteAllBytes(audioFile, data);
                         }
-                        catch (Exception ex)
-                        {
-                            Console.SetOut(consoleOut);
-
-                            Console.WriteLine("Failed to create audio [" + audioFile + "] - " + ex.ToString());
-                        }
-                    }
+                    );
                 }
             }
 
             return true;
         }
 
-        SongInstrumentPart CreateInstrumentPart(string songDir, string partName, List<SongSection> partSections, SongArrangement arrangement, SngAsset songAsset, PsarcDecoder decoder)
+        public List<PsarcConverterFiles> ConvertPsarc(Stream psarcStream, Stream songsStream)
+        {
+            var result = new List<PsarcConverterFiles>();
+
+            PsarcDecoder decoder = new PsarcDecoder(psarcStream);
+
+            PsarcDecoder songsDecoder = songsStream == null ? decoder : new PsarcDecoder(songsStream);
+
+            foreach (PsarcSongEntry songEntry in decoder.AllSongs)
+            {
+                PsarcConverterFiles psarcConverterFiles = new PsarcConverterFiles();
+                result.Add(psarcConverterFiles);
+
+                SongData songData = GetSongData(songEntry);
+
+                ProcessArrangements(songEntry, decoder, songData, out SongStructure songStructure,
+                    saveVocals: (string partName, List<SongVocal> vocals) =>
+                    {
+                        psarcConverterFiles.Vocals = vocals;
+                    }, 
+                    saveNotes: (string partName, SongInstrumentNotes notes) =>
+                    {
+                        psarcConverterFiles.Parts.Add(partName, notes);
+                    }
+                );
+
+                psarcConverterFiles.Song = songData;
+
+                psarcConverterFiles.Arrangement = songStructure;
+
+                SaveAlbumArt(songEntry, decoder,
+                    save: (System.Drawing.Bitmap bitmap) =>
+                    {
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                            psarcConverterFiles.AlbumArt = ms.ToArray();
+                        }
+                    }
+                );
+
+                SaveAudioFile(songEntry, songsDecoder,
+                    save: (byte[] data) =>
+                    {
+                        psarcConverterFiles.AudioFile = data;
+                    }
+                );
+            }
+
+            return result;
+        }
+
+        SongInstrumentPart CreateInstrumentPart(string partName, List<SongSection> partSections, SongArrangement arrangement, SngAsset songAsset, PsarcDecoder decoder, Action<string, List<SongVocal>> saveVocals, Action<string, SongInstrumentNotes> saveNotes)
         {
             float songDifficulty = Math.Min(arrangement.Attributes.SongDifficulty * 5, 5);
 
@@ -356,10 +335,7 @@ namespace ChartConverter
 
                     ChartUtil.FormatVocals(vocals);
 
-                    using (FileStream stream = File.Create(Path.Combine(songDir, partName + ".json")))
-                    {
-                        JsonSerializer.Serialize(stream, vocals, condensedSerializerOptions);
-                    }
+                    saveVocals(partName, vocals);
                 }
             }
             else
@@ -563,15 +539,12 @@ namespace ChartConverter
                                 notes.Notes.Add(songNote);
                             }
 
-                            using (FileStream stream = File.Create(Path.Combine(songDir, partName + ".json")))
-                            {
-                                JsonSerializer.Serialize(stream, notes, condensedSerializerOptions);
-                            }
-
                             break;
                         }
                     }
                 }
+
+                saveNotes(partName, notes);
             }
 
             return part;
@@ -636,6 +609,119 @@ namespace ChartConverter
                 technique |= ESongNoteTechnique.Continued;
 
             return technique;
+        }
+
+        private SongData GetSongData(PsarcSongEntry songEntry) {
+            return new SongData() {
+                SongName = songEntry.SongName,
+                SongYear = songEntry.SongYear,
+                SongLengthSeconds = songEntry.SongLengthSeconds,
+                ArtistName = songEntry.ArtistName,
+                AlbumName = songEntry.AlbumName,
+            };
+        }
+
+        void ProcessArrangements(PsarcSongEntry songEntry, PsarcDecoder decoder, SongData songData, out SongStructure songStructure, Action<string, List<SongVocal>> saveVocals, Action<string, SongInstrumentNotes> saveNotes) {
+            songStructure = new SongStructure();
+
+            foreach (string arrangementName in songEntry.Arrangements.Keys) {
+                try {
+                    SongArrangement arrangement = songEntry.Arrangements[arrangementName];
+
+                    SngAsset asset = decoder.GetSongAsset(songEntry.SongKey, arrangementName);
+
+                    List<SongSection> partSections = new List<SongSection>();
+
+                    if (asset != null) {
+                        if ((asset.BPMs != null) && (asset.BPMs.Length > songStructure.Beats.Count)) {
+                            songStructure.Beats.Clear();
+
+                            foreach (Bpm bpm in asset.BPMs) {
+                                songStructure.Beats.Add(new SongBeat {
+                                    TimeOffset = bpm.Time,
+                                    IsMeasure = (bpm.Mask > 0),
+                                });
+                            }
+                        }
+
+                        if (asset.PhraseIterations != null) {
+                            foreach (PhraseIteration it in asset.PhraseIterations) {
+                                Phrase phrase = asset.Phrases[it.PhraseId];
+
+                                SongSection songSection = new SongSection {
+                                    Name = phrase.Name,
+                                    StartTime = it.StartTime,
+                                    EndTime = it.NextPhraseTime
+                                };
+
+                                partSections.Add(songSection);
+                            }
+                        }
+
+                        //if (asset.Sections != null)
+                        //{
+                        //    songStructure.Sections.Clear();
+
+                        //    foreach (Section section in asset.Sections)
+                        //    {
+                        //        SongSection songSection = new SongSection
+                        //        {
+                        //            Name = section.Name,
+                        //            StartTime = section.StartTime,
+                        //            EndTime = section.EndTime
+                        //        };
+
+                        //        partSections.Add(songSection);
+                        //    }
+                        //}
+
+                        SongInstrumentPart part = CreateInstrumentPart(arrangementName, partSections, arrangement, asset, decoder, saveVocals, saveNotes);
+
+                        songData.AddOrReplacePart(part);
+
+                        if (songData.A440CentsOffset == 0)
+                            songData.A440CentsOffset = arrangement.Attributes.CentOffset;
+                    }
+                } catch (Exception ex) {
+                    Console.WriteLine("Error: " + ex.ToString());
+                }
+            }
+        }
+
+        private void SaveAlbumArt(PsarcSongEntry songEntry, PsarcDecoder decoder, Action<System.Drawing.Bitmap> save) {
+            try {
+                DdsAsset albumArt = decoder.GetAlbumArtAsset(songEntry.SongKey, 256);
+
+                if (albumArt != null) {
+                    save(albumArt.Bitmap);
+                }
+            } catch (Exception ex) {
+                Console.WriteLine("Error createing album art: " + ex.ToString());
+            }
+        }
+
+        private void SaveAudioFile(PsarcSongEntry songEntry, PsarcDecoder songsDecoder, Action<byte[]> save) {
+            PsarcTOCEntry bankEntry = songsDecoder.GetTOCEntry(songEntry.SongBank);
+
+            TextWriter consoleOut = Console.Out;
+
+            if (bankEntry != null) {
+                try {
+                    using (MemoryStream outputStream = new MemoryStream()) {
+                        // Suppress Ww2ogg logging
+                        Console.SetOut(TextWriter.Null);
+
+                        songsDecoder.WriteOgg(songEntry.SongKey, outputStream, bankEntry);
+                        save(outputStream.ToArray());
+
+                        Console.SetOut(consoleOut);
+                    }
+                } catch (Exception ex) {
+                    Console.SetOut(consoleOut);
+
+                    Console.WriteLine("Failed to create audio - " + ex.ToString());
+                }
+            }
         }
     }
 }
