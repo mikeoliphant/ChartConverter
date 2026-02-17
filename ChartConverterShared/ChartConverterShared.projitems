@@ -46,6 +46,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Midi\TrackSequenceNumberEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Program.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PsarcConverter.cs" />
+    <Compile Include="..\ChartConverterShared\PsarcExporter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RockBandConverter.cs" />
   </ItemGroup>
 </Project>

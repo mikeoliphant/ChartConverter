@@ -379,7 +379,7 @@ namespace ChartConverter
 
         bool ConvertPsarc()
         {
-            PsarcConverter converter = new(convertOptions.SongOutputPath)
+            PsarcExporter exporter = new(convertOptions.SongOutputPath)
             {
                 OverwriteAudio = false,
                 OverwriteData = true,
@@ -390,7 +390,7 @@ namespace ChartConverter
             {
                 try
                 {
-                    converter.ConvertFolder(oneOffPath);
+                    exporter.ConvertFolder(oneOffPath);
                 }
                 catch { }
 
@@ -401,7 +401,7 @@ namespace ChartConverter
             {
                 try
                 {
-                    if (!converter.ConvertPsarc(file))
+                    if (!exporter.ConvertPsarc(file))
                     {
                         return false;
                     }
@@ -413,7 +413,7 @@ namespace ChartConverter
             {
                 try
                 {
-                    if (!converter.ConvertFolder(folder))
+                    if (!exporter.ConvertFolder(folder))
                         return false;
                 }
                 catch { }
