@@ -1,13 +1,8 @@
-﻿using Microsoft.Xna.Framework.Input;
-using PsarcUtil;
-using SongFormat;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Threading.Tasks;
 using UILayout;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace ChartConverter
 {
