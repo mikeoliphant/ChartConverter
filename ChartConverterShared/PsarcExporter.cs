@@ -7,7 +7,6 @@ using System.Text.Json.Serialization.Metadata;
 using PsarcUtil;
 using Rocksmith2014PsarcLib.Psarc;
 using Rocksmith2014PsarcLib.Psarc.Asset;
-using Rocksmith2014PsarcLib.Psarc.Models.Json;
 using SongFormat;
 
 namespace ChartConverter
@@ -152,6 +151,9 @@ namespace ChartConverter
 
                             if (data != null)
                             {
+                                if (data.A440CentsOffset == 0)
+                                    data.A440CentsOffset = songData.A440CentsOffset;
+
                                 songData = data;
                             }
                         }
@@ -174,13 +176,6 @@ namespace ChartConverter
                             List<SongSection> partSections = new List<SongSection>();
 
                             songStructure = PsarcConverter.GetSongStructure(songAsset, songStructure);
-
-                            if (songData.A440CentsOffset == 0)
-                            {
-                                SongArrangement arrangement = songEntry.Arrangements[partName];
-
-                                songData.A440CentsOffset = arrangement.Attributes.CentOffset;
-                            }
 
                             if (part.Vocals != null)
                             {

@@ -16,14 +16,26 @@ namespace ChartConverter
     {
         public static SongData GetSongData(PsarcSongEntry songEntry)
         {
-            return new SongData()
+            SongData songData = new SongData()
             {
                 SongName = songEntry.SongName,
                 SongYear = songEntry.SongYear,
                 SongLengthSeconds = songEntry.SongLengthSeconds,
                 ArtistName = songEntry.ArtistName,
-                AlbumName = songEntry.AlbumName,
+                AlbumName = songEntry.AlbumName
             };
+
+            foreach (var arrangement in songEntry.Arrangements.Values)
+            {
+                if (arrangement.Attributes.CentOffset != 0)
+                {
+                    songData.A440CentsOffset = arrangement.Attributes.CentOffset;
+
+                    break;
+                }
+            }
+
+            return songData;
         }
 
         public static SongStructure GetSongStructure(SngAsset songAsset)
