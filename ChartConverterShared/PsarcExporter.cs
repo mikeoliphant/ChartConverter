@@ -5,7 +5,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using PsarcUtil;
-using Rocksmith2014PsarcLib.Psarc.Asset;
 using SongFormat;
 
 namespace ChartConverter
@@ -166,32 +165,30 @@ namespace ChartConverter
                 {
                     try
                     {
-                        SngAsset songAsset = decoder.GetSongAsset(songEntry.SongKey, partName);
+                        var part = PsarcConverter.GetInstrumentPart(decoder, songEntry, partName);
 
-                        if (songAsset != null)
-                        { 
-                            var part = PsarcConverter.GetInstrumentPart(songEntry, songAsset, partName);
-
+                        if (part.HasValue)
+                        {
                             List<SongSection> partSections = new List<SongSection>();
 
-                            songStructure = PsarcConverter.GetSongStructure(songAsset, songStructure);
+                            if (part.Value.SongStructure.Beats.Count > songStructure.Beats.Count)
+                                songStructure = part.Value.SongStructure;
 
-                            if (part.Vocals != null)
+                            if (part.Value.Vocals != null)
                             {
                                 using (FileStream stream = File.Create(Path.Combine(songDir, partName + ".json")))
                                 {
-                                    JsonSerializer.Serialize(stream, part.Vocals, condensedSerializerOptions);
+                                    JsonSerializer.Serialize(stream, part.Value.Vocals, condensedSerializerOptions);
                                 }
                             }
 
-                            if (part.Notes != null)
+                            if (part.Value.Notes != null)
                             {
                                 using (FileStream stream = File.Create(Path.Combine(songDir, partName + ".json")))
                                 {
-                                    JsonSerializer.Serialize(stream, part.Notes, condensedSerializerOptions);
+                                    JsonSerializer.Serialize(stream, part.Value.Notes, condensedSerializerOptions);
                                 }
                             }
-
                         }
                     }
                     catch (Exception ex)

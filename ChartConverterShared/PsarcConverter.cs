@@ -38,30 +38,6 @@ namespace ChartConverter
             return songData;
         }
 
-        public static SongStructure GetSongStructure(SngAsset songAsset)
-        {
-            return GetSongStructure(songAsset, new SongStructure());
-        }
-
-        public static SongStructure GetSongStructure(SngAsset songAsset, SongStructure existingSongStructure)
-        {
-            if ((songAsset.BPMs != null) && (songAsset.BPMs.Length > existingSongStructure.Beats.Count))
-            {
-                existingSongStructure.Beats.Clear();
-
-                foreach (Bpm bpm in songAsset.BPMs)
-                {
-                    existingSongStructure.Beats.Add(new SongBeat
-                    {
-                        TimeOffset = bpm.Time,
-                        IsMeasure = (bpm.Mask > 0),
-                    });
-                }
-            }
-
-            return existingSongStructure;
-        }
-
         public static void WriteAlbumArtToStream(PsarcDecoder decoder, PsarcSongEntry songEntry, Stream outputStream)
         {
             DdsAsset albumArt = decoder.GetAlbumArtAsset(songEntry.SongKey, 256);
@@ -98,7 +74,8 @@ namespace ChartConverter
             }
         }
 
-        public static (SongInstrumentPart Part, SongInstrumentNotes Notes, List<SongVocal> Vocals) GetInstrumentPart(PsarcSongEntry songEntry, SngAsset songAsset, string partName)
+        public static (SongInstrumentPart Part, SongStructure SongStructure, SongInstrumentNotes Notes, List<SongVocal> Vocals)?
+            GetInstrumentPart(PsarcDecoder decoder, PsarcSongEntry songEntry, string partName)
         {
             List<SongVocal> vocals = null;
             SongInstrumentNotes notes = null;
@@ -106,6 +83,25 @@ namespace ChartConverter
             SongArrangement arrangement = songEntry.Arrangements[partName];
 
             List<SongSection> partSections = new List<SongSection>();
+
+            SngAsset songAsset = decoder.GetSongAsset(songEntry.SongKey, partName);
+
+            if (songAsset == null)
+                return null;
+
+            SongStructure songStructure = new();
+
+            if (songAsset.BPMs != null)
+            {
+                foreach (Bpm bpm in songAsset.BPMs)
+                {
+                    songStructure.Beats.Add(new SongBeat
+                    {
+                        TimeOffset = bpm.Time,
+                        IsMeasure = (bpm.Mask > 0),
+                    });
+                }
+            }
 
             if (songAsset.PhraseIterations != null)
             {
@@ -394,7 +390,7 @@ namespace ChartConverter
                 }
             }
 
-            return (part, notes, vocals);
+            return (part, songStructure, notes, vocals);
         }
 
         static ESongNoteTechnique ConvertTechniques(NoteMaskFlag noteMask)
