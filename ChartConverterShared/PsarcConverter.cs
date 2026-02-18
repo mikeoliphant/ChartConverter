@@ -1,11 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using PsarcUtil;
+﻿using PsarcUtil;
+using Rocksmith2014PsarcLib.Psarc;
 using Rocksmith2014PsarcLib.Psarc.Asset;
 using Rocksmith2014PsarcLib.Psarc.Models.Json;
 using Rocksmith2014PsarcLib.Psarc.Models.Sng;
 using SongFormat;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace ChartConverter
 {
@@ -57,6 +59,32 @@ namespace ChartConverter
             }
 
             return existingSongStructure;
+        }
+
+        public static void WriteOggToStream(PsarcDecoder songsDecoder, PsarcSongEntry songEntry, Stream outputStream)
+        {
+            PsarcTOCEntry bankEntry = songsDecoder.GetTOCEntry(songEntry.SongBank);
+
+            TextWriter consoleOut = Console.Out;
+
+            if (bankEntry != null)
+            {
+                try
+                {
+                    // Suppress Ww2ogg logging
+                    Console.SetOut(TextWriter.Null);
+
+                    songsDecoder.WriteOgg(songEntry.SongKey, outputStream, bankEntry);
+
+                    Console.SetOut(consoleOut);
+                }
+                catch (Exception ex)
+                {
+                    Console.SetOut(consoleOut);
+
+                    Console.WriteLine("Failed to create audio: " + ex.ToString());
+                }
+            }
         }
 
         public static (SongInstrumentPart Part, SongInstrumentNotes Notes, List<SongVocal> Vocals) GetInstrumentPart(PsarcSongEntry songEntry, SngAsset songAsset, string partName)

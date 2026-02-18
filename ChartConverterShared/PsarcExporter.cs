@@ -227,34 +227,20 @@ namespace ChartConverter
                     Console.WriteLine("Error createing album art: " + ex.ToString());
                 }
 
-                PsarcTOCEntry bankEntry = songsDecoder.GetTOCEntry(songEntry.SongBank);
+                string audioFile = Path.Combine(songDir, "song.ogg");
 
-                TextWriter consoleOut = Console.Out;
-
-                if (bankEntry != null)
+                if (OverwriteAudio || !File.Exists(audioFile))
                 {
-                    string audioFile = Path.Combine(songDir, "song.ogg");
-
-                    if (OverwriteAudio || !File.Exists(audioFile))
+                    try
                     {
-                        try
+                        using (Stream outputStream = File.Create(audioFile))
                         {
-                            using (Stream outputStream = File.Create(audioFile))
-                            {
-                                // Suppress Ww2ogg logging
-                                Console.SetOut(TextWriter.Null);
-
-                                songsDecoder.WriteOgg(songEntry.SongKey, outputStream, bankEntry);
-
-                                Console.SetOut(consoleOut);
-                            }
+                            PsarcConverter.WriteOggToStream(songsDecoder, songEntry, outputStream);
                         }
-                        catch (Exception ex)
-                        {
-                            Console.SetOut(consoleOut);
-
-                            Console.WriteLine("Failed to create audio [" + audioFile + "] - " + ex.ToString());
-                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Failed to create audio [" + audioFile + "] - " + ex.ToString());
                     }
                 }
             }
