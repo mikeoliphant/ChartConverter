@@ -5,7 +5,6 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
 using PsarcUtil;
-using Rocksmith2014PsarcLib.Psarc;
 using Rocksmith2014PsarcLib.Psarc.Asset;
 using SongFormat;
 
@@ -213,13 +212,9 @@ namespace ChartConverter
 
                 try
                 {
-                    DdsAsset albumArt = decoder.GetAlbumArtAsset(songEntry.SongKey, 256);
-
-                    if (albumArt != null)
+                    using (Stream outputStream = File.Create(Path.Combine(songDir, "albumart.png")))
                     {
-                        string albumPath = Path.Combine(songDir, "albumart.png");
-
-                        albumArt.Bitmap.Save(albumPath, System.Drawing.Imaging.ImageFormat.Png);
+                        PsarcConverter.WriteAlbumArtToStream(decoder, songEntry, outputStream);
                     }
                 }
                 catch (Exception ex)

@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace ChartConverter
 {
@@ -59,6 +60,16 @@ namespace ChartConverter
             }
 
             return existingSongStructure;
+        }
+
+        public static void WriteAlbumArtToStream(PsarcDecoder decoder, PsarcSongEntry songEntry, Stream outputStream)
+        {
+            DdsAsset albumArt = decoder.GetAlbumArtAsset(songEntry.SongKey, 256);
+
+            if (albumArt != null)
+            {
+                albumArt.Bitmap.Save(outputStream, System.Drawing.Imaging.ImageFormat.Png);
+            }
         }
 
         public static void WriteOggToStream(PsarcDecoder songsDecoder, PsarcSongEntry songEntry, Stream outputStream)
