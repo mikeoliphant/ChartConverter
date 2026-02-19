@@ -649,7 +649,7 @@ namespace ChartConverter
                         }
                         else if (isBeats)
                         {
-                            if (noteEvent.CommandCode == MidiCommandCode.NoteOn)
+                            if ((noteEvent.CommandCode == MidiCommandCode.NoteOn) && (noteEvent.Velocity > 0))
                             {
                                 // 12 is downbeat, 13 is other beat
                                 if ((noteEvent.NoteNumber == 12) || (noteEvent.NoteNumber == 13))

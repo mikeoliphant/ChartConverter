@@ -1,14 +1,13 @@
-﻿using PsarcUtil;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using PsarcUtil;
 using Rocksmith2014PsarcLib.Psarc;
 using Rocksmith2014PsarcLib.Psarc.Asset;
 using Rocksmith2014PsarcLib.Psarc.Models.Json;
 using Rocksmith2014PsarcLib.Psarc.Models.Sng;
 using SongFormat;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace ChartConverter
 {
