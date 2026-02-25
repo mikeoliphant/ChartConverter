@@ -169,6 +169,8 @@ namespace ChartConverter
 
                         if (part.HasValue)
                         {
+                            songData.AddOrReplacePart(part.Value.Part);
+
                             List<SongSection> partSections = new List<SongSection>();
 
                             if (part.Value.SongStructure.Beats.Count > songStructure.Beats.Count)
