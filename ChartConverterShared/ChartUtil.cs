@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using SongFormat;
 
 namespace ChartConverter
@@ -36,20 +37,29 @@ namespace ChartConverter
                     {
                         charsInLine += vocals[pos].Vocal.Length;
 
-                        bool isGoodBreak = (pos < (vocals.Count - 2)) && (char.IsAsciiLetterUpper(vocals[pos + 1].Vocal[0]) || ((vocals[pos + 1].TimeOffset - vocals[pos].TimeOffset) > 0.5f));
+                        int nextVocalPos = 0;
 
-                        if ((isGoodBreak && charsInLine > 20) || (charsInLine > maxCharsPerLine))
+                        for (; nextVocalPos < vocals.Count; nextVocalPos++)
+                            if (!String.IsNullOrEmpty(vocals[nextVocalPos].Vocal))
+                                break;
+
+                        if (nextVocalPos < vocals.Count)
                         {
-                            vocals[pos] = new SongVocal()
+                            bool isGoodBreak = (pos < (vocals.Count - 2)) && (char.IsAsciiLetterUpper(vocals[nextVocalPos].Vocal[0]) || ((vocals[nextVocalPos].TimeOffset - vocals[pos].TimeOffset) > 0.5f));
+
+                            if ((isGoodBreak && charsInLine > 20) || (charsInLine > maxCharsPerLine))
                             {
-                                TimeOffset = vocals[pos].TimeOffset,
-                                Vocal = vocals[pos].Vocal + "\n"
-                            };
+                                vocals[pos] = new SongVocal()
+                                {
+                                    TimeOffset = vocals[pos].TimeOffset,
+                                    Vocal = vocals[pos].Vocal + "\n"
+                                };
 
-                            charsInLine = 0;
-                            lastBreakPos = pos;
+                                charsInLine = 0;
+                                lastBreakPos = pos;
 
-                            break;
+                                break;
+                            }
                         }
                     }        
                 }

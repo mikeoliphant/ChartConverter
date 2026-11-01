@@ -293,6 +293,7 @@ namespace ChartConverter
 
                 int currentMicrosecondsPerQuarterNote = 0;
                 long currentMicrosecond = 0;
+                long lastVocalMicrosecond = 0;
                 long currentTick = 0;
 
                 var tempoEnumerator = tempoMap.GetEnumerator();
@@ -499,6 +500,8 @@ namespace ChartConverter
                                         TimeOffset = (float)((double)currentMicrosecond / 1000000.0) + midiTimeOffset,
                                         Vocal = text
                                     });
+
+                                    lastVocalMicrosecond = currentMicrosecond;
                                 }
                             }
                         }
@@ -658,6 +661,28 @@ namespace ChartConverter
                                     {
                                         TimeOffset = (float)((double)currentMicrosecond / 1000000.0) + midiTimeOffset,
                                         IsMeasure = (noteEvent.NoteNumber == 12)
+                                    });
+                                }
+                            }
+                        }
+                        else if (isVocals)
+                        {
+                            int pitch = noteEvent.NoteNumber;
+
+                            if ((pitch >= 36) && (pitch <= 84))
+                            {
+                                if ((currentMicrosecond == lastVocalMicrosecond) && (vocals.Count > 0))
+                                {
+                                    SongVocal lastVocal = vocals[vocals.Count - 1];
+
+                                    lastVocal.Pitch = pitch;
+                                }
+                                else
+                                {
+                                    vocals.Add(new SongVocal()
+                                    {
+                                        Pitch = pitch,
+                                        TimeOffset = (float)((double)currentMicrosecond / 1000000.0) + midiTimeOffset,
                                     });
                                 }
                             }
